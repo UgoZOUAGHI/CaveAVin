@@ -1,0 +1,6 @@
+Creation Map
+https://blog.zhaytam.com/2018/07/20/openstreetmap-googlemaps-alternative/
+region cliquable en utilisant geojson,leaflet,openstreetmap
+https://leafletjs.com/examples/choropleth/
+france geo json : 
+https://france-geojson.gregoiredavid.fr/	
