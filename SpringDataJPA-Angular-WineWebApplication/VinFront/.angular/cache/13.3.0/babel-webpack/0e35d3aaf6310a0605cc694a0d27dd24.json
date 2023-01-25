@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class User {\n  getNumber() {\n    return this.id;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

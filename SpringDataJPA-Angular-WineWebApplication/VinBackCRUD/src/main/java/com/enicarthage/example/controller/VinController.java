@@ -44,7 +44,7 @@ public class VinController {
             Producteur test =producteurRepository.findByIdcompte(vin.getIdCompte()) ;
             if (test== null)
             {
-                throw new Exception(("producteur n'existe pas "));
+                throw new Exception(("Producteur n'existe pas"));
             }
         }
 
@@ -56,7 +56,7 @@ public class VinController {
     @GetMapping("/wines/{id}")
     public ResponseEntity<Vin> getVinById(@PathVariable Long id) {
         Vin vin = vinRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(" vin n'existe pas ayant id :" + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Vin ayant l'id :" + id + "n'existe pas"));
         return ResponseEntity.ok(vin);
     }
 
@@ -65,7 +65,7 @@ public class VinController {
     @PutMapping("/wines/{id}")
     public ResponseEntity<Vin> updateVin(@PathVariable Long id, @RequestBody Vin vinDetails){
         Vin vin = vinRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("vin n'existe pas ayant id :" + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Vin ayant l'id :" + id + "n'existe pas"));
 
 
         vin.setAppelation(vinDetails.getAppelation());
@@ -84,7 +84,7 @@ public class VinController {
     @DeleteMapping("/wines/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteVin(@PathVariable Long id){
         Vin vin = vinRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Vin n'existe pas ayant id :" + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Vin ayant l'id :" + id + "n'existe pas"));
 
         vinRepository.delete(vin);
         Map<String, Boolean> response = new HashMap<>();

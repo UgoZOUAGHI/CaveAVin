@@ -27,7 +27,7 @@ public class RegisterController {
             User userobj=registrationRepository.findByEmailId(tempEmailId) ;
             if (userobj!= null)
             {
-                throw new Exception(("user with "+tempEmailId+"is allready exists"));
+                throw new Exception(("User with "+tempEmailId+"already exists"));
             }
         }
         User userobj=null;
@@ -50,7 +50,7 @@ public class RegisterController {
         }
         if (userObj==null)
         {
-            throw new Exception("error de donné");
+            throw new Exception("Data error");
         }
         return userObj;
     }

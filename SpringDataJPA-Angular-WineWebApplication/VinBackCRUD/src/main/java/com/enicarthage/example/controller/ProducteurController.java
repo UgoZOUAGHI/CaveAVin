@@ -20,13 +20,13 @@ public class ProducteurController {
 
         if (producteur.getIdcompte()!= null )
         {
-            Producteur test =producteurRepository.findByIdcompte(producteur.getIdcompte()) ;
+            Producteur test = producteurRepository.findByIdcompte(producteur.getIdcompte()) ;
             if (test!= null)
             {
-                throw new Exception(("producteur existe deja "));
+                throw new Exception(("Producteur existe déjà "));
             }
         }
-        Producteur pro=null;
+        Producteur pro = null;
         return  producteurRepository.save(producteur);
         // return pro;
 

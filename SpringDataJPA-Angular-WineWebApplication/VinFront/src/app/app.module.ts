@@ -24,6 +24,7 @@ import { OpenstreetmapComponent } from './openstreetmap/openstreetmap.component'
 import { NosproducteursComponent } from './nosproducteurs/nosproducteurs.component';
 import { AcceuilComponent } from './acceuil/acceuil.component';
 import { GuideComponent } from './guide/guide.component';
+import { ComponentNameComponent } from './component-name/component-name.component';
 
 
 
@@ -49,6 +50,7 @@ import { GuideComponent } from './guide/guide.component';
    NosproducteursComponent,
    AcceuilComponent,
    GuideComponent,
+   ComponentNameComponent,
    
   ],
   imports: [

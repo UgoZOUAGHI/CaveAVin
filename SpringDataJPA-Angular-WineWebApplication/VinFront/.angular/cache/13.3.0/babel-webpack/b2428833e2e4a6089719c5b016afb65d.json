@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Vin {\n  Vin(num) {\n    this.idCompte = num;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}
