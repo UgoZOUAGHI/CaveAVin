@@ -1,6 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AcceuilComponent } from './acceuil/acceuil.component';
+import { AcceuilComponent } from './accueil/acceuil.component';
 import { ContactComponent } from './contact/contact.component';
 import { CreateVinComponent } from './create-vin/create-vin.component';
 import { GuideComponent } from './guide/guide.component';

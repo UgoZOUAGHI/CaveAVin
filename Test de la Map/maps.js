@@ -66,7 +66,7 @@
 		});
 	}
 
-	/*const legend = L.control({position: 'bottomright'});
+	const legend = L.control({position: 'bottomright'});
 
 	legend.onAdd = function (map) {
 
@@ -86,4 +86,4 @@
 		return div;
 	};
 
-	legend.addTo(map);  */
+	legend.addTo(map);  

@@ -22,7 +22,7 @@ import { NosvincompteComponent } from './nosvincompte/nosvincompte.component';
 import { MapComponent } from './map/map.component';
 import { OpenstreetmapComponent } from './openstreetmap/openstreetmap.component';
 import { NosproducteursComponent } from './nosproducteurs/nosproducteurs.component';
-import { AcceuilComponent } from './acceuil/acceuil.component';
+import { AcceuilComponent } from './accueil/acceuil.component';
 import { GuideComponent } from './guide/guide.component';
 import { ComponentNameComponent } from './component-name/component-name.component';
 
