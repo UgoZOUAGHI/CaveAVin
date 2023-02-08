@@ -1,18 +1,16 @@
 <template>
   <NavigationBar />
-  <p> footer </p>
+  <router-view> </router-view>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
-import NavigationBar from './components/NavigationBar.vue'
+import NavigationBar from '/src/components/NavigationBar.vue'
 export default {
   name: 'App',
   components: {
-    //HelloWorld,
     NavigationBar,
-}
-}
+  }
+} 
 </script>
 
 <style>

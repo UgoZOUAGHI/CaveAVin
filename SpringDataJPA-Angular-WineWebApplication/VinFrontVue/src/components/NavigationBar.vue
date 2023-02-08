@@ -22,7 +22,6 @@
             <img alt="logo" @click="menuHamburger" src="@/assets/menu-btn.png" class="menu-hamburger">
 
         </nav>
-        <router-view/> 
     </body>
     
 </template>
