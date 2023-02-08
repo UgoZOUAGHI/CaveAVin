@@ -6,16 +6,19 @@
             <div class="nav-lists">
                 <ul>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Nos Producteurs</a>
+                        <router-link to="/carte" @click="menuHamburger">Carte des vignobles</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/vins">Nos vins</router-link>
+                        <router-link to="/producteurs" @click="menuHamburger">Les Producteurs</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/about">About</router-link>
+                        <router-link to="/vins" @click="menuHamburger">Nos Vins</router-link>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Connexion</a>
+                        <router-link to="/about" @click="menuHamburger">About</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/connexion" @click="menuHamburger">Connexion</router-link>
                     </li>
                 </ul>
             </div>
@@ -44,7 +47,7 @@
                 if(this.reveal_menu == '-100%'){
                     this.reveal_menu = '0%';
                 }
-                else{
+                else if(this.reveal_menu == '0%'){
                     this.reveal_menu = '-100%';
                 } 
             }
@@ -54,8 +57,6 @@
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Poppins');
-
-
 
 * {
     margin: 0;

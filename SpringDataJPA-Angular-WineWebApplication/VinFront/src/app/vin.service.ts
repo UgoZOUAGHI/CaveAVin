@@ -22,7 +22,7 @@ export class VinService {
   private base7="http://localhost:8080/api/v1/filtre1"
   private base8="http://localhost:8080/api/v1/ProducteurRegion"
   private base9="http://localhost:8080/api/v1/Producteurs"
-  private base10="http://localhost:8080/api/v1/UserById"
+  private base10="http://localhost:8080/api/v1/UserById"  
   shared!:number;
   sharedUser: User=new User();
   constructor(private httpClient: HttpClient) { }

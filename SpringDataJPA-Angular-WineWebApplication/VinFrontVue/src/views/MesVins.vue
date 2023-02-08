@@ -1,10 +1,12 @@
 <template>
     <h1>Les Vins</h1>
-</template>
+    
+</template> 
 
 <script>
 export default {
 }
 </script>   
 <style>
+
 </style>    
