@@ -2,14 +2,14 @@
 
     <body>
         <nav class="navbar">
-            <a href="#" class="logo">PolyVin</a>
+            <router-link to="/" class="logo">PolyVin</router-link>
             <div class="nav-lists">
                 <ul>
                     <li class="nav-item">
                         <a href="#" class="nav-link">Nos Producteurs</a>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/">Nos vins</router-link>
+                        <router-link to="/vins">Nos vins</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/about">About</router-link>

@@ -1,5 +1,5 @@
 <template>
-    <h1>About us</h1>
+    <h1>Les Vins</h1>
 </template>
 
 <script>
