@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <form>
+    <form @submit.prevent="login">
+        <div v-if="!successful">
         <h3>S'inscrire</h3>
 
         <label for="email_id">Email</label>
         <input v-model ="email_id" type="text" placeholder="example@xyz.com" id="email_id">
-
         <label for="user_name">Username</label>
         <input v-model ="user_name" type="text" placeholder="username" id="user_name">
 
@@ -17,9 +17,10 @@
         <label for="password">Répéter le mot de passe</label>
         <input v-model="password_repeat" type="password" placeholder="********" id="password_repeat">
 
-        <button @click="signUp" >S'inscrire</button>
-        <p v-if="msg">{{ msg }}</p>
+        <button> S'inscrire </button>
+        </div>
     </form>
+
 
 </html>
 

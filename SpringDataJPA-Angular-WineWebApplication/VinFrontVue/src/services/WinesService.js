@@ -5,6 +5,9 @@ class WinesService{
     getWines(){
         return axios.get(BASE_URL + "wines");
     }
+    getWinesByColor(color){
+        return axios.get(BASE_URL + "wines" + "/" + color);
+    }
 }
 
 export default new WinesService();

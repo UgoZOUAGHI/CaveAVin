@@ -1,19 +1,19 @@
 <template>
 <!DOCTYPE html>
 <html lang="en">
-
-    <form>
+    {{ user.login }}
+    <form @submit.prevent="login">
         <h3>Connexion</h3>
+        <!-- {{  user.login }} -->
         <h1><router-link to="/inscription">S'inscrire</router-link></h1>
 
-        <label for="username">Email</label>
-        <input v-model ="username" type="text" placeholder="example@xyz.com" id="username">
+        <label for="user_login">Email</label>
+        <input type="text" placeholder="example@xyz.com" id="user_mail" v-model="user.email">
 
-        <label for="password">Mot de passe</label>
-        <input v-model ="password" type="password" placeholder="********" id="password">
+        <label for="user_password">Mot de passe</label>
+        <input type="password" placeholder="********" id="user_password" v-model="user.password">
 
-        <button @click = "login">Connecter</button>
-        <p v-if="msg">{{ msg }}</p>
+        <button class ="button" type ="submit">Se connecter</button>
     </form>
 
 </html>
@@ -22,34 +22,21 @@
 </template>
 
 <script>
-import AuthService from '@/services/AuthService.js';
 export default {
-    data:() => {
+    name: 'Login',
+    data(){
         return{
-            username: "",
-            password: "",
-            msg: ""
-        };
-    },
-
-    methods:{
-        async login(){
-            try{
-                const user_info = {
-                    username : this.username,
-                    password : this.password,
-
-                };
-                const response = await AuthService.Login(user_info);
-                this.msg = response.msg;
-                this.$router.push('/');
-            
-            }catch(error){
-                this.msg = error.response.data.msg;
+            user:{
+                email:'',
+                password:''
             }
         }
+    },
+    methods:{
+        login(){
+            
     }
-};
+}}
 </script>  
 
 

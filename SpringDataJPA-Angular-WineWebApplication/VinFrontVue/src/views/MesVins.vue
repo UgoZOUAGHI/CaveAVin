@@ -1,5 +1,5 @@
 <template>
-    <h1>Les Vins</h1>
+    <h1 id="titre">Les Vins</h1>
     <Wines />
 </template> 
 
@@ -14,3 +14,9 @@ export default {
 <style>
 
 </style>    
+
+
+<!--getWinesByColor() {
+            WinesService.getWinesByColor(color).then((response) => {
+                this.wines = response.data;
+            });-->
