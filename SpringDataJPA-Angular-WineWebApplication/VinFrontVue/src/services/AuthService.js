@@ -1,15 +1,32 @@
 import axios from 'axios';
 
-const LOGIN_URL = 'http://localhost:8090/api/v1/';
-class UserService{
-    Login(user_info){
-        return axios.post(LOGIN_URL + 'login/',user_info).then(response => response.data);
-    };
-    SignUp(user_info) {
-        return axios
-          .post(url + 'users/', user_info)
-          .then(response => response.data);
-      }
-};  
+const CONST_URL = 'http://localhost:8090/api/v1/';
+class UserService {
+  login(user) {
+    return axios
+      .post(CONST_URL + 'login', {
+        username: user.username,
+        password: user.password
+      })
+      .then(response => {
+        if (response.data.accessToken) {
+          localStorage.setItem('user', JSON.stringify(response.data));
+        }
+        return response.data;
+      });
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+  }
+  register(user) {
+    return axios
+      .post(CONST_URL + 'users', {
+        user_name: user.username,
+        email_id: user.email,
+        password: user.password
+      });
+  }
+};
 
 export default new UserService();

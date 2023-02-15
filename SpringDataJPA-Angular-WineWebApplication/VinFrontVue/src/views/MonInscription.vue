@@ -5,16 +5,20 @@
     <form>
         <h3>S'inscrire</h3>
 
-        <label for="username">Email</label>
-        <input v-model ="username" type="text" placeholder="example@xyz.com" id="username">
+        <label for="email_id">Email</label>
+        <input v-model ="email_id" type="text" placeholder="example@xyz.com" id="email_id">
+
+        <label for="user_name">Username</label>
+        <input v-model ="user_name" type="text" placeholder="username" id="user_name">
 
         <label for="password">Mot de passe</label>
         <input v-model ="password" type="password" placeholder="********" id="password">
 
         <label for="password">Répéter le mot de passe</label>
-        <input v-model="password_repeat" type="password" placeholder="********" id="password">
+        <input v-model="password_repeat" type="password" placeholder="********" id="password_repeat">
 
-        <button @click="signUp">S'inscrire</button>
+        <button @click="signUp" >S'inscrire</button>
+        <p v-if="msg">{{ msg }}</p>
     </form>
 
 </html>
@@ -23,14 +27,13 @@
 </template>
 
 <script>
-
 import AuthService from '@/services/AuthService.js';
 export default {
     data:() => {
         return{
-            username: "",
+            email_id: "",
             password: "",
-            password_repeat: "",
+            user_name: "",
             msg: ""
         };
     },
@@ -39,16 +42,17 @@ export default {
         async signUp(){
             try{
                 const user_info = {
-                    username = this.username,
-                    password = this.password,
-                    password_repeat = this.password_repeat
+                    email_id : this.email_id,
+                    password : this.password,
+                    user_name : this.user_name,
 
                 };
                 const response = await AuthService.SignUp(user_info);
                 this.msg = response.msg;
+                this.$router.push('/');
             
             }catch(error){
-                this.msg = error.response.data.msg
+                this.msg = error.response.data.msg;
             }
         }
     }

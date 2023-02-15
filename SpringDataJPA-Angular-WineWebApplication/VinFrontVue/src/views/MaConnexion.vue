@@ -12,7 +12,8 @@
         <label for="password">Mot de passe</label>
         <input v-model ="password" type="password" placeholder="********" id="password">
 
-        <button>Connecter</button>
+        <button @click = "login">Connecter</button>
+        <p v-if="msg">{{ msg }}</p>
     </form>
 
 </html>
@@ -21,8 +22,34 @@
 </template>
 
 <script>
+import AuthService from '@/services/AuthService.js';
 export default {
-}
+    data:() => {
+        return{
+            username: "",
+            password: "",
+            msg: ""
+        };
+    },
+
+    methods:{
+        async login(){
+            try{
+                const user_info = {
+                    username : this.username,
+                    password : this.password,
+
+                };
+                const response = await AuthService.Login(user_info);
+                this.msg = response.msg;
+                this.$router.push('/');
+            
+            }catch(error){
+                this.msg = error.response.data.msg;
+            }
+        }
+    }
+};
 </script>  
 
 

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8090/api/v1/wines';
+const BASE_URL = 'http://localhost:8090/api/v1/';
 class WinesService{
     getWines(){
-        return axios.get(BASE_URL);
+        return axios.get(BASE_URL + "wines");
     }
 }
 

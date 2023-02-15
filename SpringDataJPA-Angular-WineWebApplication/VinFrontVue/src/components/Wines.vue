@@ -12,10 +12,10 @@
             </thead>
             <tbody>
                 <tr v-for="wine in wines" v-bind:key="wine.id">
-                    <td data-title="id"> {{ wine.id }}</td>
-                    <td data-title="appelation"> {{ wine.appelation }}</td>
-                    <td data-title="region"> {{ wine.region }}</td>
-                    <td data-title="cepage"> {{ wine.cepage }}</td>
+                    <td data-title="Id"> {{ wine.id }}</td>
+                    <td data-title="Appelation"> {{ wine.appelation }}</td>
+                    <td data-title="Region"> {{ wine.region }}</td>
+                    <td data-title="Cepage"> {{ wine.cepage }}</td>
                 </tr>
             </tbody>
         </table>
