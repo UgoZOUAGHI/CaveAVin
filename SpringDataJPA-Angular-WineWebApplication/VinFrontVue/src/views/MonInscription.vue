@@ -6,15 +6,15 @@
         <h3>S'inscrire</h3>
 
         <label for="username">Email</label>
-        <input type="text" placeholder="example@xyz.com" id="username">
+        <input v-model ="username" type="text" placeholder="example@xyz.com" id="username">
 
         <label for="password">Mot de passe</label>
-        <input type="password" placeholder="********" id="password">
+        <input v-model ="password" type="password" placeholder="********" id="password">
 
         <label for="password">Répéter le mot de passe</label>
-        <input type="password" placeholder="********" id="password">
+        <input v-model="password_repeat" type="password" placeholder="********" id="password">
 
-        <button>S'inscrire</button>
+        <button @click="signUp">S'inscrire</button>
     </form>
 
 </html>
@@ -23,8 +23,33 @@
 </template>
 
 <script>
+
+import AuthService from '@/services/AuthService.js';
 export default {
-}
+    data:() => {
+        return{
+            username: "",
+            password: "",
+            password_repeat: "",
+            msg: ""
+        };
+    },
+
+    methods:{
+        async signUp(){
+            try{
+                const user_info = {
+                    username = this.username,
+                    password = this.password,
+                    password_repeat = this.password_repeat
+
+                };
+                const response = await AuthService.SignUp(user_info);
+                
+            }
+        }
+    }
+};
 </script>  
 
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200", "http://localhost:8080","http://localhost:8081" })
 @RestController
 @RequestMapping("/api/v1/")
 public class RegisterController {
@@ -54,7 +54,7 @@ public class RegisterController {
         }
         return userObj;
     }
-
+    // exemple requête REST : http://localhost:8090/api/v1/UserById/1
     @GetMapping("/UserById/{id}")
     public User getUserById(@PathVariable long id)
     {

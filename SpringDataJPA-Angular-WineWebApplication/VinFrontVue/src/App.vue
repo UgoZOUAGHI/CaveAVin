@@ -1,17 +1,15 @@
 <template>
   <NavigationBar />
-  <Carte />
   <router-view> </router-view>
 </template>
 
 <script>
 import NavigationBar from '/src/components/NavigationBar.vue'
-import Carte from 'src/components/Carte.vue'
+//import Carte from 'src/components/Carte.vue'
 export default {
   name: 'App',
   components: {
-    NavigationBar,
-    Carte
+    NavigationBar
   }
 } 
 </script>

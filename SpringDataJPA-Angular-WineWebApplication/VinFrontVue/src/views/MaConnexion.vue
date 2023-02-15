@@ -7,10 +7,10 @@
         <h1><router-link to="/inscription">S'inscrire</router-link></h1>
 
         <label for="username">Email</label>
-        <input type="text" placeholder="example@xyz.com" id="username">
+        <input v-model ="username" type="text" placeholder="example@xyz.com" id="username">
 
         <label for="password">Mot de passe</label>
-        <input type="password" placeholder="********" id="password">
+        <input v-model ="password" type="password" placeholder="********" id="password">
 
         <button>Connecter</button>
     </form>

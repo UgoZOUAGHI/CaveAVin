@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <Carte />
   </template>
   
@@ -10,4 +10,4 @@
       Carte
     }
   } 
-  </script>
+  </script> -->

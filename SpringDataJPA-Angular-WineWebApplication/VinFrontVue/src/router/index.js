@@ -6,7 +6,7 @@ import MesVins from '@/views/MesVins.vue'
 import MaProducteurs from '@/views/MaProducteurs.vue'
 import MaConnexion from '@/views/MaConnexion.vue'
 import MonInscription from '@/views/MonInscription.vue'
-import Carte from '@/components/Carte.vue'
+//import Carte from '@/components/Carte.vue'
 
 
 const router = createRouter({
@@ -35,11 +35,11 @@ const router = createRouter({
     {
       path: '/inscription',
       component: MonInscription
-    },
-    {
-      path: '/carte',
-      component: MaAbout
     }
+    // {
+    //   path: '/carte',
+    //   component: MaAbout
+    // }
   ] 
 })
 export default router
