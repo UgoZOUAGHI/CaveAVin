@@ -45,7 +45,10 @@ export default {
 
                 };
                 const response = await AuthService.SignUp(user_info);
-                
+                this.msg = response.msg;
+            
+            }catch(error){
+                this.msg = error.response.data.msg
             }
         }
     }
