@@ -1,13 +1,15 @@
-<!-- <template>
-    <Carte />
-  </template>
-  
-  <script>
-  import Carte from 'src/components/Carte.vue'
-  export default {
-    name: 'Carte',
-    components: {
-      Carte
-    }
-  } 
-  </script> -->
+<template>
+
+  <Carte />
+
+</template>
+
+<script>
+import Carte from '@/components/Carte.vue'
+export default {
+  name: 'App',
+  components: {
+    Carte
+  }
+}
+</script>

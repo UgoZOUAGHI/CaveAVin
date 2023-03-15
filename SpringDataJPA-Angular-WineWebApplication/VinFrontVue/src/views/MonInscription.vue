@@ -2,19 +2,22 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <form>
+    <form @submit.prevent="handleSubmit">
         <h3>S'inscrire</h3>
 
         <label for="username">Email</label>
-        <input v-model ="username" type="text" placeholder="example@xyz.com" id="username">
+        <input v-model="email" type="text" placeholder="example@xyz.com" id="user_mail">
+
+        <label for="username">Username</label>
+        <input v-model="user_name" type="text" placeholder="example@xyz.com" id="username">
 
         <label for="password">Mot de passe</label>
-        <input v-model ="password" type="password" placeholder="********" id="password">
+        <input v-model="password" type="password" placeholder="********" id="password">
 
         <label for="password">Répéter le mot de passe</label>
-        <input v-model="password_repeat" type="password" placeholder="********" id="password">
+        <input v-model="password_confirm" type="password" placeholder="********" id="password">
 
-        <button @click="signUp">S'inscrire</button>
+        <button>S'inscrire</button>
     </form>
 
 </html>
@@ -26,33 +29,33 @@
 
 import AuthService from '@/services/AuthService.js';
 export default {
+    
+    name: 'Register',
+    
     data:() => {
         return{
-            username: "",
+            user_name: "",
+            email: "",
             password: "",
-            password_repeat: "",
-            msg: ""
+            password_confirm: ""
         };
     },
 
     methods:{
-        async signUp(){
-            try{
-                const user_info = {
-                    username = this.username,
-                    password = this.password,
-                    password_repeat = this.password_repeat
-
-                };
-                const response = await AuthService.SignUp(user_info);
-                this.msg = response.msg;
-            
-            }catch(error){
-                this.msg = error.response.data.msg
-            }
+        
+        async handleSubmit(){
+            const data = {
+                emailId: this.email,
+                password : this.password,
+                password_confirm  : this.password_confirm,
+                userName : this.user_name
+            };
+            await AuthService.SignUp(data);
+            this.$router.push('/connexion');
         }
     }
-};
+        
+}
 </script>  
 
 

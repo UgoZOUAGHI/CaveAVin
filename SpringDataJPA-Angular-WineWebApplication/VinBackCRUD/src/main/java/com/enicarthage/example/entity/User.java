@@ -1,18 +1,51 @@
 package com.enicarthage.example.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table
+@Table(	name = "user", 
+		uniqueConstraints = { 
+			@UniqueConstraint(columnNames = "username"),
+			@UniqueConstraint(columnNames = "email") 
+		})
 public class User {
+	
     @Id
     @GeneratedValue
     private long id;
-    private String emailId;
-    private String userName;
-    private String password;
+    
+    @NotBlank
+	@Size(max = 50)
+	@Email
+    private String email;
 
+    @NotBlank
+	@Size(max = 20)
+    private String username;
+    
+    @NotBlank
+	@Size(max = 120)
+    private String password;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+    
     public User(){}
+    
+    public User(String username, String email, String password) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
     public long getId() {
         return id;
     }
@@ -21,20 +54,20 @@ public class User {
         this.id = id;
     }
 
-    public String getEmailId() {
-        return emailId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -44,6 +77,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
 
 

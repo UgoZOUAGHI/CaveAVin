@@ -1,9 +1,27 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8090/api/v1/wines';
+const BASE_URL = 'http://localhost:8090/api/v1/';
 class WinesService{
     getWines(){
-        return axios.get(BASE_URL);
+        return axios.get(BASE_URL + "wines");
+    }
+    getWinesByColor(color){
+        return axios.get(BASE_URL + "wines" + "/" + color);
+    }
+    getWinesByCepage(cepage){
+        return axios.get(BASE_URL + "wines" + "/" + cepage);
+    }
+    getAllCepages(){
+        return axios.get(BASE_URL + "wines/allcepages")
+    }
+    getAllColors(){
+        return axios.get(BASE_URL + "wines/allcolors")
+    }
+    getAllRegions(){
+        return axios.get(BASE_URL + "wines/allregions")
+    }
+    getAllAppelations(){
+        return axios.get(BASE_URL + "wines/allappelations")
     }
 }
 

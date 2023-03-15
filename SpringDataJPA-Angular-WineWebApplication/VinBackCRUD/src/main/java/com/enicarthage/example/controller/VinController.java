@@ -33,7 +33,67 @@ public class VinController {
     public List<Vin> getAllVins(){
         return vinRepository.findAll();
     }
-
+    
+    @GetMapping("/wines/allcepages")
+    public ResponseEntity<List<String>> getAllCepages(){
+    	
+    	List<String> AllCepage = new ArrayList<String>();
+    	List<Vin> vins = vinRepository.findAll();
+    	
+    	for (Vin v : vins)
+        {
+    		if(!AllCepage.contains(v.getCepage())) {
+    			AllCepage.add(v.getCepage());
+    		}
+        }
+        return ResponseEntity.ok(AllCepage);
+    }
+    
+    @GetMapping("/wines/allcolors")
+    public ResponseEntity<List<String>> getAllColors(){
+    	
+    	List<String> AllColors = new ArrayList<String>();
+    	List<Vin> vins = vinRepository.findAll();
+    	
+    	for (Vin v : vins)
+        {
+    		if(!AllColors.contains(v.getCouleur())) {
+    			AllColors.add(v.getCouleur());
+    		}
+        }
+        return ResponseEntity.ok(AllColors);
+    }
+    
+    @GetMapping("/wines/allregions")
+    public ResponseEntity<List<String>> getAllRegions(){
+    	
+    	List<String> AllRegions = new ArrayList<String>();
+    	List<Vin> vins = vinRepository.findAll();
+    	
+    	for (Vin v : vins)
+        {
+    		if(!AllRegions.contains(v.getRegion())) {
+    			AllRegions.add(v.getRegion());
+    		}
+        }
+        return ResponseEntity.ok(AllRegions);
+    }
+    
+    @GetMapping("/wines/allappelations")
+    public ResponseEntity<List<String>> getAllAppelations(){
+    	
+    	List<String> AllAppelations = new ArrayList<String>();
+    	List<Vin> vins = vinRepository.findAll();
+    	
+    	for (Vin v : vins)
+        {
+    		if(!AllAppelations.contains(v.getAppelation())) {
+    			AllAppelations.add(v.getAppelation());
+    		}
+        }
+        return ResponseEntity.ok(AllAppelations);
+    }
+    
     // create employee rest api
     @PostMapping("/wines")
     public Vin ajouterVin(@RequestBody Vin vin) throws Exception{
@@ -57,6 +117,14 @@ public class VinController {
     public ResponseEntity<Vin> getVinById(@PathVariable Long id) {
         Vin vin = vinRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vin ayant l'id :" + id + "n'existe pas"));
+        return ResponseEntity.ok(vin);
+    }
+    
+ // get employee by id rest api
+    @GetMapping("/wines/{cepage}")
+    public ResponseEntity<Vin> getVinByCepage(@PathVariable Long cepage) {
+        Vin vin = vinRepository.findById(cepage)
+                .orElseThrow(() -> new ResourceNotFoundException("Vin ayant le cepage :" + cepage + "n'existe pas"));
         return ResponseEntity.ok(vin);
     }
 
