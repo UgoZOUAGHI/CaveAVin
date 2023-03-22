@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const CONST_URL = 'http://localhost:8090/api/auth/';
-class UserService {
+class AuthService {
     Login(user) {
         return axios
-            .post(API_URL + 'login', {
+            .post(CONST_URL + 'login', {
                 username: user.username,
                 password: user.password
             })
@@ -20,13 +20,14 @@ class UserService {
         localStorage.removeItem('user');
     }
     SignUp(user) {
-        return axios.post(API_URL + 'register', {
+        return axios.post(CONST_URL + 'register', {
             username: user.username,
             email: user.email,
-            password: user.password
+            password: user.password,
+            roles : user.roles
         });
     }
 
 };
 
-export default new UserService();
+export default new AuthService();

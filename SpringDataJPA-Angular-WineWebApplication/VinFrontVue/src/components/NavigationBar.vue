@@ -1,5 +1,4 @@
 <template>
-
     <body>
         <nav class="navbar">
             <router-link to="/" class="logo">PolyVin</router-link>
@@ -17,42 +16,58 @@
                     <li class="nav-item">
                         <router-link to="/about" @click="menuHamburger">About</router-link>
                     </li>
+                    
+                    <div v-if="!StateUser">
                     <li class="nav-item">
                         <router-link to="/connexion" @click="menuHamburger">Connexion</router-link>
                     </li>
+                    </div>
+                    <div v-if="StateUser">
+                    <li class="nav-item">
+                        <a id='logout' @click.prevent="logOut">Déconnexion</a>
+                    </li>
+                    </div>
                 </ul>
             </div>
             <img alt="logo" @click="menuHamburger" src="@/assets/menu-btn.png" class="menu-hamburger">
 
         </nav>
     </body>
-    
 </template>
 
 
 <script>
-    /*const menuHamburger = document.querySelector(".menu-hamburger")
-    const navLinks = document.querySelector(".nav-lists")
-    menuHamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('mobile-menu')
-    })*/
-    export default {
-        data(){
-            return{
-                reveal_menu: '-100%'
+/*const menuHamburger = document.querySelector(".menu-hamburger")
+const navLinks = document.querySelector(".nav-lists")
+menuHamburger.addEventListener('click', () => {
+navLinks.classList.toggle('mobile-menu')
+})*/
+export default {
+    data() {
+        return {
+            reveal_menu: '-100%'
+        }
+    },
+    computed: {
+        StateUser() {
+            return this.$store.state.auth.user;
+        },
+    },
+    methods: {
+        menuHamburger() {
+            if (this.reveal_menu == '-100%') {
+                this.reveal_menu = '0%';
+            }
+            else if (this.reveal_menu == '0%') {
+                this.reveal_menu = '-100%';
             }
         },
-        methods:{
-            menuHamburger(){
-                if(this.reveal_menu == '-100%'){
-                    this.reveal_menu = '0%';
-                }
-                else if(this.reveal_menu == '0%'){
-                    this.reveal_menu = '-100%';
-                } 
-            }
+        logOut() {
+            this.$store.dispatch('auth/logout');
+            this.$router.push('/login');
         }
     }
+}
 </script>
 
 <style>
@@ -85,6 +100,7 @@ body {
 .navbar a {
     color: whitesmoke;
 }
+
 .navbar router-link {
     color: whitesmoke;
 }
@@ -109,6 +125,10 @@ body {
     top: 50px;
     right: 50px;
     width: 35px;
+}
+
+#logout{
+    cursor: pointer;
 }
 
 
@@ -137,11 +157,12 @@ body {
         justify-content: center;
         align-items: center;
         background-color: darkred;
-        margin-left: v-bind('reveal_menu');  /* bind du margin-left */
+        margin-left: v-bind('reveal_menu');
+        /* bind du margin-left */
         transition: all 0.5s ease;
     }
 
-    
+
     .nav-lists ul {
         display: flex;
         flex-direction: column;
@@ -151,5 +172,6 @@ body {
     .navbar .nav-lists ul li {
         margin: 3px 0;
     }
+
 }
 </style>

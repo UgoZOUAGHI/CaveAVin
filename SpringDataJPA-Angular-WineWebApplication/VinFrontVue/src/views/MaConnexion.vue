@@ -6,13 +6,16 @@
         <h3>Connexion</h3>
         <h1><router-link to="/inscription">S'inscrire</router-link></h1>
 
-        <label for="username">Email</label>
-        <input v-model="username" type="text" placeholder="example@xyz.com" id="username">
+        <label for="username">Username</label>
+        <input v-model="username" type="text" placeholder="example" id="username">
 
         <label for="password">Mot de passe</label>
         <input v-model="password" type="password" placeholder="********" id="password">
 
-        <button>Connecter</button>
+        <button :disabled="loading">
+            <span v-show="loading"></span>
+            Connecter
+        </button>
     </form>
 
     </html>
@@ -20,13 +23,13 @@
 
 <script>
 export default {
-    name: 'Login',
-
-    data: () => {
+    name: 'MaConnexion',
+    data:() => {
         return {
             username: "",
-            password: ""
-        };
+            password: "",
+            loading: false,
+        }
     },
     computed: {
         loggedIn() {
@@ -40,24 +43,26 @@ export default {
     },
     methods: {
         handleSubmit() {
+            this.loading = true;
             const user = {
-                username: this.email,
+                username: this.username,
                 password: this.password,
             };
-            this.$store.dispatch("auth/login", user).then(
-                () => {
-                    this.$router.push("/vins");
-                },
-                (error) => {
-                    this.loading = false;
-                    this.message =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                }
-            );
+            this.$store.dispatch("auth/login", user)
+                .then(
+                    () => {
+                        this.$router.push("/");
+                    },
+                    (error) => {
+                        this.loading = false;
+                        this.message =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString();
+                    }
+                );
         },
     },
 }
