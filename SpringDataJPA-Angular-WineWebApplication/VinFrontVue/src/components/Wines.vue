@@ -42,7 +42,7 @@
 
             </thead>
 
-            <tbody v-for="wine in wines" v-bind:key="wine.id">
+            <tbody v-for="wine in wines"  v-bind:key="wine.id ">
 
                 <tr v-if="wine.couleur == color">
                     <td data-title="Appelation"> {{ wine.appelation }}</td>
@@ -58,13 +58,7 @@
                     <td data-title="Couleur"> {{ wine.couleur }}</td>
                 </tr>
 
-                <tr v-else="wine.region == region">
-                    <!--<td data-title="Id"> {{ wine.id }}</td>-->
-                    <td data-title="Appelation"> {{ wine.appelation }}</td>
-                    <td data-title="Region"> {{ wine.region }}</td>
-                    <td data-title="Cepage"> {{ wine.cepage }}</td>
-                    <td data-title="Couleur"> {{ wine.couleur }}</td>
-                </tr>
+
                     
             </tbody>
         </table>

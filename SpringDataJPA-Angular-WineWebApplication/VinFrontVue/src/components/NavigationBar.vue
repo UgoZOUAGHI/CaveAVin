@@ -13,19 +13,26 @@
                     <li class="nav-item">
                         <router-link to="/vins" @click="menuHamburger">Nos Vins</router-link>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <router-link to="/about" @click="menuHamburger">About</router-link>
-                    </li>
-                    
+                    </li> -->
                     <div v-if="!StateUser">
-                    <li class="nav-item">
-                        <router-link to="/connexion" @click="menuHamburger">Connexion</router-link>
-                    </li>
+                        <li class="nav-item">
+                            <router-link to="/connexion" @click="menuHamburger">Connexion</router-link>
+                        </li>
                     </div>
-                    <div v-if="StateUser">
-                    <li class="nav-item">
-                        <a id='logout' @click.prevent="logOut">Déconnexion</a>
-                    </li>
+                    <div v-if="StateUser" >
+                        <li class="nav-item">
+                            <router-link to="/profile" @click="menuHamburger">
+                                {{ StateUser.username }}
+                            </router-link>
+                        </li>
+                    </div>
+                    <div v-if="StateUser" >
+
+                        <li class="nav-item">
+                            <a id='logout' @click="menuHamburger" @click.prevent="logOut">Déconnexion</a>
+                        </li>
                     </div>
                 </ul>
             </div>
@@ -52,6 +59,7 @@ export default {
         StateUser() {
             return this.$store.state.auth.user;
         },
+        
     },
     methods: {
         menuHamburger() {
@@ -127,7 +135,7 @@ body {
     width: 35px;
 }
 
-#logout{
+#logout {
     cursor: pointer;
 }
 

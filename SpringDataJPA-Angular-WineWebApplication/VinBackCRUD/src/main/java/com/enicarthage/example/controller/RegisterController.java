@@ -103,9 +103,9 @@ public class RegisterController {
 
 					break;
 				case "producteur":
-					Role modRole = roleRepository.findByName(ERole.ROLE_PRODUCTEUR)
+					Role prodRole = roleRepository.findByName(ERole.ROLE_PRODUCTEUR)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(modRole);
+					roles.add(prodRole);
 
 					break;
 				default:

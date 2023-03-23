@@ -7,6 +7,7 @@ import MaProducteurs from '@/views/MaProducteurs.vue'
 import MaConnexion from '@/views/MaConnexion.vue'
 import MonInscription from '@/views/MonInscription.vue'
 import MaCarte from '@/views/ViewCarte.vue'
+import Profile from '@/views/Profile.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -38,6 +39,10 @@ const router = createRouter({
     {
       path: '/carte',
       component: MaCarte
+    },
+    {
+      path: '/profile',
+      component: Profile
     }
   ] 
 })

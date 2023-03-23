@@ -3,7 +3,9 @@ package com.enicarthage.example.controller;
 import com.enicarthage.example.entity.Producteur;
 import com.enicarthage.example.repository.ProducteurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class ProducteurController {
     public Producteur addProducteur(@RequestBody Producteur producteur ) throws Exception
     {
 
-        if (producteur.getIdcompte()!= null )
+    	if (producteur.getIdcompte()!= null )
         {
             Producteur test = producteurRepository.findByIdcompte(producteur.getIdcompte()) ;
             if (test!= null)
@@ -30,6 +32,27 @@ public class ProducteurController {
         return  producteurRepository.save(producteur);
         // return pro;
 
+    }
+    
+    @PutMapping("/producteur/{idcompte}")
+    public ResponseEntity<Producteur> updateProducteur(@PathVariable long idcompte, @RequestBody Producteur producteur) throws Exception
+    {
+    	Producteur updateProd = producteurRepository.findByIdcompte(idcompte);
+    	if(updateProd == null)
+    	{
+    		throw new Exception(("Producteur n'existe pas à l'id :  " + idcompte));
+    	}
+    	
+    	
+    	updateProd.setNom(producteur.getNom());
+    	updateProd.setNumero_fiscal(producteur.getNumero_fiscal());
+    	updateProd.setRegionviticole(producteur.getRegionviticole());
+    	updateProd.setTelephone(producteur.getTelephone());
+    	updateProd.setVille(producteur.getVille());
+    		
+    	producteurRepository.save(updateProd);
+    	
+    	return ResponseEntity.ok(updateProd);
     }
 
     @GetMapping("/producteur/{idcompte}")

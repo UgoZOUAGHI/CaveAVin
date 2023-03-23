@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 25 jan. 2023 à 10:09
--- Version du serveur : 10.4.24-MariaDB
--- Version de PHP : 8.1.6
+-- Généré le : mer. 22 mars 2023 à 11:02
+-- Version du serveur : 10.4.27-MariaDB
+-- Version de PHP : 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,14 +29,15 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `hibernate_sequence`
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(47);
+(70),
+(1);
 
 -- --------------------------------------------------------
 
@@ -52,7 +53,7 @@ CREATE TABLE `producteur` (
   `regionviticole` varchar(255) DEFAULT NULL,
   `telephone` bigint(20) DEFAULT NULL,
   `ville` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `producteur`
@@ -67,25 +68,72 @@ INSERT INTO `producteur` (`id`, `idcompte`, `nom`, `numero_fiscal`, `regionvitic
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'ROLE_USER'),
+(2, 'ROLE_PRODUCTEUR'),
+(3, 'ROLE_ADMIN');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `user`
 --
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `email_id` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `user_name` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `username` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id`, `email_id`, `password`, `user_name`) VALUES
+INSERT INTO `user` (`id`, `email`, `password`, `username`) VALUES
 (30, 'sirine.ferchichi@gmail.com', 'Naima', 'Naima'),
 (32, 'derin@gmail.com', 'derin', 'Derin'),
 (1, 'admin@gmail.com', 'admin', 'admin'),
-(45, 'polytech@gmail.com', 'test', 'polytechSAGI');
+(45, 'polytech@gmail.com', 'test', 'polytechSAGI'),
+(66, 'matteo@gmail.com', '$2a$10$Uwa8euRjDM2yPHsBJigMM.D9rsXB.Moo80Lv.dhjMLo9JG2wVgAmm', 'matt123'),
+(69, 'producteur@gmail.com', '$2a$10$S7vR/DUG.5VT/jFEApDAuehTECb2xotraYeIFZ1KrKKbjpooj46AC', 'producteur'),
+(65, 'test3@gmail.com', '$2a$10$3wMtw13VusGw2k5mk7.BTOtZv8.XyNslfZWmQtn/GSjJNt6Y8zTUK', 'test3'),
+(68, 'test@test.com', '$2a$10$Iw4HilqU09pnURPhEPt6w.udlYNtg3poKNn8NPF7m0vAWyR.Qkpbm', 'test123');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `user_id` bigint(20) NOT NULL,
+  `role_id` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `user_roles`
+--
+
+INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
+(65, 1),
+(65, 2),
+(66, 1),
+(67, 1),
+(68, 1),
+(69, 1);
 
 -- --------------------------------------------------------
 
@@ -104,7 +152,7 @@ CREATE TABLE `vins` (
   `prix` double DEFAULT NULL,
   `id_compte` bigint(20) NOT NULL,
   `region` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `vins`
@@ -130,10 +178,24 @@ ALTER TABLE `producteur`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UKob8kqyqqgmefl0aco34akdtpe` (`email`) USING HASH;
+
+--
+-- Index pour la table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`user_id`,`role_id`),
+  ADD KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (`role_id`);
 
 --
 -- Index pour la table `vins`
@@ -144,6 +206,12 @@ ALTER TABLE `vins`
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `vins`

@@ -10,7 +10,7 @@
             <input v-model="email" type="text" placeholder="example@xyz.com" id="user_mail">
 
             <label for="username">Username</label>
-            <input v-model="username" type="text" placeholder="example@xyz.com" id="username">
+            <input v-model="username" type="text" placeholder="example" id="username">
 
             <label for="password">Mot de passe</label>
             <input v-model="password" type="password" placeholder="********" id="password">
@@ -18,12 +18,12 @@
             <!-- <label for="password">Répéter le mot de passe</label>
         <input v-model="password_confirm" type="password" placeholder="********" id="password"> -->
 
-            <label> Type d'utilisateur :</label>
+            <label> Type d'utilisateur :    </label>
             <div class="radiobutton">
-                <input class="increase" type="radio" name="roles" value="ROLE_PRODUCTEUR" v-model="roles">
-                <label for="producteur">Producteur</label>
+                <input class="increase" type="radio" name="roles" value="producteur" v-model="roles">
+                <label class="textc" for="producteur">Producteur</label>
                 <input class="increase" type="radio" name="roles" value="ROLE_USER" v-model="roles">
-                <label for="producteur">Client</label>
+                <label class="textc" for="producteur">Client</label>
             </div>
             <button :disabled="loading">
                 <span v-show="loading"></span>
@@ -51,7 +51,7 @@ export default {
             email: "",
             password: "",
             password_confirm: "",
-            roles: [],
+            roles : [],
             loading: false,
             successful: false,
             message: "",
@@ -74,7 +74,7 @@ export default {
                 username: this.username,
                 password: this.password,
                 email: this.email,
-                roles: this.roles
+                role: this.roles
             };
             this.message = "";
             this.successful = false;
@@ -163,7 +163,11 @@ form h1 {
 .increase {
     width: 20px;
     height: 20px;
-    margin-right: 10px;
+    margin-right: 0px;
+    margin-top: 30px;
+}
+.textc {
+    margin-right: 50px;
 }
 
 label {

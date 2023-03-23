@@ -38,7 +38,7 @@ export default {
     },
     created() {
         if (this.loggedIn) {
-            this.$router.push("/vins");
+            this.$router.push("/profile");
         }
     },
     methods: {
