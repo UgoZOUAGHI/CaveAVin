@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 22 mars 2023 à 11:02
+-- Généré le : jeu. 23 mars 2023 à 21:32
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -36,7 +36,7 @@ CREATE TABLE `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(70),
+(93),
 (1);
 
 -- --------------------------------------------------------
@@ -63,7 +63,8 @@ INSERT INTO `producteur` (`id`, `idcompte`, `nom`, `numero_fiscal`, `regionvitic
 (43, 30, 'Château Comtesse du Parc ', 634275698642, 'Région Bordeaux', 622663287, 'Saint-Estèphe'),
 (42, 32, 'Domaine du Mas des Tines ', 54678354987, ' Région Bourgogne', 650100196, 'Saint-Amour-Bellevue'),
 (44, 1, 'Château de la Rose Sarron', 45628961459, 'Région Bordeaux', 767342287, 'Langon'),
-(46, 45, 'Polytech', 98736475816, 'Région Loire', 898762722, 'Angers');
+(46, 45, 'Polytech', 98736475816, 'Région Loire', 898762722, 'Angers'),
+(91, 83, 'LeChateauDuComte', 123456789123, 'Loire', 606060606, 'Angers');
 
 -- --------------------------------------------------------
 
@@ -108,9 +109,11 @@ INSERT INTO `user` (`id`, `email`, `password`, `username`) VALUES
 (1, 'admin@gmail.com', 'admin', 'admin'),
 (45, 'polytech@gmail.com', 'test', 'polytechSAGI'),
 (66, 'matteo@gmail.com', '$2a$10$Uwa8euRjDM2yPHsBJigMM.D9rsXB.Moo80Lv.dhjMLo9JG2wVgAmm', 'matt123'),
-(69, 'producteur@gmail.com', '$2a$10$S7vR/DUG.5VT/jFEApDAuehTECb2xotraYeIFZ1KrKKbjpooj46AC', 'producteur'),
+(74, 'producteur@gmail.com', '$2a$10$SOAsbiGcxbCdd.H1ENSW9eXsIR.Vy9mM3NGhBng16HIqCA1nCr5OO', 'producteur'),
 (65, 'test3@gmail.com', '$2a$10$3wMtw13VusGw2k5mk7.BTOtZv8.XyNslfZWmQtn/GSjJNt6Y8zTUK', 'test3'),
-(68, 'test@test.com', '$2a$10$Iw4HilqU09pnURPhEPt6w.udlYNtg3poKNn8NPF7m0vAWyR.Qkpbm', 'test123');
+(68, 'test@test.com', '$2a$10$Iw4HilqU09pnURPhEPt6w.udlYNtg3poKNn8NPF7m0vAWyR.Qkpbm', 'test123'),
+(83, 'producteur2@gmail.com', '$2a$10$EYMXDK4LM01kxqleLS0pW.kfCDYPwq28VZdWBxkYi8qdBFvxxXWrG', 'producteur2'),
+(84, 'client@gmail.com', '$2a$10$fRZRzYr5gE6uo9pM7.1GR.sCpFqtQlVYQTAJUiHF4e/vxuf81/eJi', 'client');
 
 -- --------------------------------------------------------
 
@@ -133,7 +136,10 @@ INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
 (66, 1),
 (67, 1),
 (68, 1),
-(69, 1);
+(74, 2),
+(82, 1),
+(83, 2),
+(84, 1);
 
 -- --------------------------------------------------------
 
@@ -188,7 +194,8 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UKob8kqyqqgmefl0aco34akdtpe` (`email`) USING HASH;
+  ADD UNIQUE KEY `UKob8kqyqqgmefl0aco34akdtpe` (`email`) USING HASH,
+  ADD UNIQUE KEY `UKsb8bbouer5wak8vyiiy4pf2bx` (`username`) USING HASH;
 
 --
 -- Index pour la table `user_roles`
