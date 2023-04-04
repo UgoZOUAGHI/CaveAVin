@@ -127,7 +127,7 @@ public class VinController {
                 .orElseThrow(() -> new ResourceNotFoundException("Vin ayant le cepage :" + cepage + "n'existe pas"));
         return ResponseEntity.ok(vin);
     }
-
+    
     // update employee rest api
 
     @PutMapping("/wines/{id}")

@@ -2,17 +2,17 @@
     <!DOCTYPE html>
     <html lang="en">
 
-    <form @submit.prevent="handleSubmit">
-        <h3>Connexion</h3>
-        <h1><router-link to="/inscription">S'inscrire</router-link></h1>
+    <form class="connexion" @submit.prevent="handleSubmit">
+        <h3 class="connexion" >Connexion</h3>
+        <h1 class="connexion"><router-link to="/inscription">S'inscrire</router-link></h1>
 
-        <label for="username">Username</label>
-        <input v-model="username" type="text" placeholder="example" id="username">
+        <label class="connexion" for="username">Username</label>
+        <input class="connexion" v-model="username" type="text" placeholder="example" id="username">
 
-        <label for="password">Mot de passe</label>
-        <input v-model="password" type="password" placeholder="********" id="password">
+        <label class="connexion" for="password">Mot de passe</label>
+        <input class="connexion" v-model="password" type="password" placeholder="********" id="password">
 
-        <button :disabled="loading">
+        <button class="connexion" :disabled="loading">
             <span v-show="loading"></span>
             Connecter
         </button>
@@ -82,7 +82,7 @@ export default {
 
 
 
-form {
+form.connexion {
     width: 350px;
     height: 450x;
     background-color: darkred;
@@ -98,7 +98,7 @@ form {
     margin-top: 5%;
 }
 
-form * {
+form.connexion * {
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
     letter-spacing: 0.5px;
@@ -106,14 +106,14 @@ form * {
     border: none;
 }
 
-form h3 {
+form.connexion h3.connexion {
     font-size: 32px;
     font-weight: 800;
     line-height: 42px;
     text-align: center;
 }
 
-form h1 {
+form.connexion h1.connexion {
     font-size: 16px;
     font-weight: 400;
     line-height: 21px;
@@ -121,14 +121,14 @@ form h1 {
     text-decoration: underline;
 }
 
-label {
+label.connexion {
     display: block;
     margin-top: 30px;
     font-size: 16px;
     font-weight: 800;
 }
 
-input {
+input.connexion {
     display: block;
     height: 50px;
     width: 100%;
@@ -144,7 +144,7 @@ input {
     color: #e5e5e5;
 }
 
-button {
+button.connexion {
     margin-top: 30px;
     width: 100%;
     background-color: #ffffff;

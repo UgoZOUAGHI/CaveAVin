@@ -2,32 +2,32 @@
     <!DOCTYPE html>
     <html lang="en">
 
-    <form @submit.prevent="handleSubmit">
+    <form class="inscription" @submit.prevent="handleSubmit">
         <div v-if="!successful">
-            <h3>S'inscrire</h3>
+            <h3 class="inscription">S'inscrire</h3>
 
-            <label for="username">Email</label>
-            <input v-model="email" type="text" placeholder="example@xyz.com" id="user_mail">
+            <label class="inscription" for="username">Email</label>
+            <input class="inscription" v-model="email" type="text" placeholder="example@xyz.com" id="user_mail">
 
-            <label for="username">Username</label>
-            <input v-model="username" type="text" placeholder="example" id="username">
+            <label class="inscription" for="username">Username</label>
+            <input class="inscription" v-model="username" type="text" placeholder="example" id="username">
 
-            <label for="password">Mot de passe</label>
-            <input v-model="password" type="password" placeholder="********" id="password">
+            <label class="inscription" for="password">Mot de passe</label>
+            <input class="inscription" v-model="password" type="password" placeholder="********" id="password">
 
             <!-- <label for="password">Répéter le mot de passe</label>
         <input v-model="password_confirm" type="password" placeholder="********" id="password"> -->
 
-            <label> Type d'utilisateur :    </label>
+            <label class="inscription"> Type d'utilisateur : </label>
             <div class="radiobutton">
                 <input class="increase" type="radio" name="roles" value="producteur" v-model="roles">
                 <label class="textc" for="producteur">Producteur</label>
                 <input class="increase" type="radio" name="roles" value="ROLE_USER" v-model="roles">
                 <label class="textc" for="producteur">Client</label>
             </div>
-            <button :disabled="loading">
+            <button class="inscription" :disabled="loading">
                 <span v-show="loading"></span>
-                S'inscrire
+                <label id="textInscrire">S'inscrire</label>
             </button>
         </div>
         <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
@@ -51,7 +51,7 @@ export default {
             email: "",
             password: "",
             password_confirm: "",
-            roles : [],
+            roles: [],
             loading: false,
             successful: false,
             message: "",
@@ -113,10 +113,7 @@ export default {
     box-sizing: border-box;
 }
 
-
-
-
-form {
+form.inscription {
     width: 450px;
     height: 450x;
     background-color: darkred;
@@ -132,7 +129,7 @@ form {
     margin-top: 5%;
 }
 
-form * {
+form.inscription * {
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
     letter-spacing: 0.5px;
@@ -140,14 +137,14 @@ form * {
     border: none;
 }
 
-form h3 {
+form.inscription h3.inscription {
     font-size: 32px;
     font-weight: 800;
     line-height: 42px;
     text-align: center;
 }
 
-form h1 {
+form.inscription h1.inscription {
     font-size: 16px;
     font-weight: 400;
     line-height: 21px;
@@ -166,18 +163,19 @@ form h1 {
     margin-right: 0px;
     margin-top: 30px;
 }
+
 .textc {
     margin-right: 50px;
 }
 
-label {
+label.inscription {
     display: block;
     margin-top: 30px;
     font-size: 16px;
     font-weight: 800;
 }
 
-input {
+input.inscription {
     display: block;
     height: 50px;
     width: 100%;
@@ -193,7 +191,7 @@ input {
     color: #e5e5e5;
 }
 
-button {
+button.inscription {
     margin-top: 30px;
     width: 100%;
     background-color: #ffffff;
@@ -213,5 +211,9 @@ button {
     background-color: rgba(255, 255, 255, 0.27);
     color: #eaf0fb;
     text-align: center;
+}
+
+#textInscrire{
+    color : black;  
 }
 </style>

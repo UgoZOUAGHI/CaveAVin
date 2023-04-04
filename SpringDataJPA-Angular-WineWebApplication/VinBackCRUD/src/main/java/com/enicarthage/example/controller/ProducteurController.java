@@ -66,7 +66,7 @@ public class ProducteurController {
         return producteurRepository.findByRegionviticole(region) ;
     }
 
-    @GetMapping("/Producteurs")
+    @GetMapping("/producteurs")
     public List<Producteur> getProducteurs()
     {
         return producteurRepository.findAll();

@@ -94,7 +94,7 @@ public class Vin {
 
     }
 
-    public Vin(String nom, String appelation, String couleur,String cepage,double degre_alcool,double contenance,double prix,String description, Long idCompte) {
+    public Vin(String nom, String appelation, String couleur,String cepage,double degre_alcool,double contenance,double prix,String description, Long idCompte, String region) {
         super();
 
         this.appelation = appelation;
@@ -105,6 +105,7 @@ public class Vin {
         this.prix=prix;
         this.description=description;
         this.idCompte=idCompte;
+        this.region=region;	
 
     }
 

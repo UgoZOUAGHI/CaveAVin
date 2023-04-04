@@ -8,6 +8,8 @@ import MaConnexion from '@/views/MaConnexion.vue'
 import MonInscription from '@/views/MonInscription.vue'
 import MaCarte from '@/views/ViewCarte.vue'
 import Profile from '@/views/Profile.vue'
+import VinsProducteurs from '@/views/VinsProducteurs.vue'
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -43,6 +45,10 @@ const router = createRouter({
     {
       path: '/profile',
       component: Profile
+    },
+    {
+      path: '/vinsproducteurs',
+      component: VinsProducteurs
     }
   ] 
 })

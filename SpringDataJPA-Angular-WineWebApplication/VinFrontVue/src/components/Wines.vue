@@ -137,12 +137,12 @@ export default {
 .container {
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 table {
 
-    margin: 1rem auto;
+    margin: auto auto;
     text-align: center;
     width: 100%;
     max-width: 100%;
@@ -158,7 +158,7 @@ thead {
 
 th,
 td {
-    padding: 8px 0
+    padding: 5px 10px;
 }
 
 tbody tr:nth-child(even) {

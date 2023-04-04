@@ -21,6 +21,13 @@
                             <router-link to="/connexion" @click="menuHamburger">Connexion</router-link>
                         </li>
                     </div>
+                    <div v-if="ShowProducteurContent" >
+                        <li class="nav-item">
+                            <router-link to="/vinsproducteurs" @click="menuHamburger">
+                                Mes Vins
+                            </router-link>
+                        </li>
+                    </div>
                     <div v-if="StateUser" >
                         <li class="nav-item">
                             <router-link to="/profile" @click="menuHamburger">
@@ -58,6 +65,13 @@ export default {
     computed: {
         StateUser() {
             return this.$store.state.auth.user;
+        },
+        ShowProducteurContent() {
+            if (this.StateUser && this.StateUser['roles']) {
+                return this.StateUser['roles'].includes('ROLE_PRODUCTEUR');
+            }
+
+            return false;
         },
         
     },
