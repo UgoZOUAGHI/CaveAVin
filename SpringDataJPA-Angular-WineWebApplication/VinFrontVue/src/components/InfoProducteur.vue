@@ -3,18 +3,31 @@
 
         <div class="form2">
 
-            <label class="form" for="username">nom du domaine :</label>
-            <input class="form" v-model="nom" type="text" placeholder="example" id="username">
+            <label class="form" for="username">Nom du domaine :</label>
+            <input class="form" v-model="nom" type="text" placeholder="vignoble de ..." id="username">
 
-            <label class="form" for="password">numéro fiscal :</label>
+            <label class="form" for="password">Numéro fiscal :</label>
             <input class="form" v-model="numero_fiscal" type="text" placeholder="********" id="password">
 
 
-            <label class="form" for="password">région viticole :</label>
-            <input class="form" v-model="regionviticole" type="text" placeholder="votre région" id="password">
+            <label class="form" for="password">Région viticole :</label>
+            <!-- <input class="form" v-model="regionviticole" type="text" placeholder="votre région" id="password"> -->
+            <select v-model="regionviticole" name="region" placeholder="votre région" id="password">
+                <option v-for="laregion in allregions" v-bind:key="laregion">{{ laregion }}</option>
+                <option value="no-region"> </option>
+            </select>
 
         </div>
+        <div class="form2">
+            <label class="form" for="password">Rue :</label>
+            <input class="form" v-model="rue" type="text" placeholder="Addresse (Rue)" id="username">
 
+            <label class="form" for="password">Numéro :</label>
+            <input class="form" v-model="numero_rue" type="text" placeholder="Numéro de Rue" id="username">
+
+            <label class="form" for="password">Code postal :</label>
+            <input class="form" v-model="code_postal" type="text" placeholder="Code Postal" id="username">
+        </div>
         <div class="form2">
             <label class="form" for="password">téléphone :</label>
             <input class="form" v-model="telephone" type="text" placeholder="06********" id="password">
@@ -32,6 +45,7 @@
 <script>
 
 import ProducteurService from '../services/ProducteurService.js';
+import WinesService from '../services/WinesService.js';
 export default {
     name: 'InfoProducteur',
     data() {
@@ -42,7 +56,11 @@ export default {
             nom: "",
             numero_fiscal: "",
             telephone: "",
+            numero_rue: "",
+            rue: "",
+            code_postal: "",
             producteur: [],
+            allregions: []
         };
     },
     computed: {
@@ -51,34 +69,50 @@ export default {
         },
     },
     methods: {
-
         ModifProducteur() {
-            const producteur = {
+            const producteur_test = {
                 idcompte: this.StateUser.id,
                 nom: this.nom,
                 numero_fiscal: this.numero_fiscal,
                 regionviticole: this.regionviticole,
                 telephone: this.telephone,
-                ville: this.ville
+                ville: this.ville,
+                rue: this.rue,
+                numero_rue: this.numero_rue,
+                code_postal: this.code_postal
             };
-            ProducteurService.getProducteurById(producteur.idcompte).then((response) => {
+            ProducteurService.getProducteurById(producteur_test.idcompte).then((response) => {
                 this.producteur = response.data;
+                console.log(response);
+                console.log(producteur_test.idcompte);
+                console.log(this.producteur.id);
+                if (typeof (this.producteur.id) !== "undefined" && this.producteur.id !== null) {
+                    ProducteurService.modifProducteurInfo(producteur_test.idcompte, producteur_test);
+                    window.location.reload();
+                }
+                else {
+                    ProducteurService.addProducteurInfo(producteur_test).then((response) => {
+                        this.producteur = response.data;
+                        window.location.reload();
+                    });
+                    
+                }
+                
             });
-            if (producteur != null && producteur.nom != "" && producteur.numero_fiscal != "" && producteur.regionviticole != "" && producteur.telephone != "" && producteur.ville != "") {
-                ProducteurService.modifProducteurInfo(producteur.idcompte, producteur);
-            }
-            else {
-                ProducteurService.addProducteurInfo(producteur).then((response) => {
-                    this.producteur = response.data;
-                });
-            }
         },
         CloseFormulaire() {
-            window.location.reload();
+            //window.location.reload();
         },
-
-
+        getAllRegions() {
+            WinesService.getAllRegions().then((response) => {
+                this.allregions = response.data;
+            });
+        },
+    },
+    created() {
+        this.getAllRegions();
     }
+
 
 }
 

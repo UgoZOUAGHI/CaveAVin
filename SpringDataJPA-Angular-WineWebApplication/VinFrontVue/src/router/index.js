@@ -49,7 +49,7 @@ const router = createRouter({
     {
       path: '/vinsproducteurs',
       component: VinsProducteurs
-    }
+    },
   ] 
 })
 export default router

@@ -49,7 +49,10 @@ public class ProducteurController {
     	updateProd.setRegionviticole(producteur.getRegionviticole());
     	updateProd.setTelephone(producteur.getTelephone());
     	updateProd.setVille(producteur.getVille());
-    		
+    	updateProd.setCode_postal(producteur.getCode_postal());
+    	updateProd.setRue(producteur.getRue());
+    	updateProd.setNumero_rue(producteur.getNumero_rue());
+    	
     	producteurRepository.save(updateProd);
     	
     	return ResponseEntity.ok(updateProd);

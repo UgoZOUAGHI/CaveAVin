@@ -11,6 +11,9 @@ class WinesService{
     getWinesByCepage(cepage){
         return axios.get(BASE_URL + "wines" + "/" + cepage);
     }
+    getWinesByRegion(region){
+        return axios.get(BASE_URL + "wines" + "/" + region);
+    }
     getAllCepages(){
         return axios.get(BASE_URL + "wines/allcepages")
     }

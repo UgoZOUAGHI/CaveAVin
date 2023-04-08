@@ -1,9 +1,11 @@
 package com.enicarthage.example.controller;
 
 import com.enicarthage.example.entity.Producteur;
+import com.enicarthage.example.entity.Region;
 import com.enicarthage.example.entity.User;
 import com.enicarthage.example.entity.Vin;
 import com.enicarthage.example.repository.ProducteurRepository;
+import com.enicarthage.example.repository.RegionRepository;
 import com.enicarthage.example.repository.RegistrationRepository;
 import com.enicarthage.example.repository.VinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class VinController {
 
     @Autowired
     private VinRepository vinRepository;
+    
+    @Autowired
+    RegionRepository regionRepository;
 
     @Autowired
     RegistrationRepository registrationRepository;
@@ -68,12 +73,12 @@ public class VinController {
     public ResponseEntity<List<String>> getAllRegions(){
     	
     	List<String> AllRegions = new ArrayList<String>();
-    	List<Vin> vins = vinRepository.findAll();
+    	List<Region> region = regionRepository.findAll();
     	
-    	for (Vin v : vins)
+    	for (Region r : region)
         {
-    		if(!AllRegions.contains(v.getRegion())) {
-    			AllRegions.add(v.getRegion());
+    		if(!AllRegions.contains(r.getRegion())) {
+    			AllRegions.add(r.getRegion());
     		}
         }
         return ResponseEntity.ok(AllRegions);

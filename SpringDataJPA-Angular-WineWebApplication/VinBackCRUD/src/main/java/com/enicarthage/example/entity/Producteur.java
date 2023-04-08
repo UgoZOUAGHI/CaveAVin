@@ -58,7 +58,10 @@ public class Producteur {
     private Long telephone;
     private Long idcompte;
     private String ville;
-
+    private String rue;
+    private Long code_postal; 
+    private Long numero_rue;
+    
     public String getVille() {
         return ville;
     }
@@ -66,7 +69,37 @@ public class Producteur {
     public void setVille(String ville) {
         this.ville = ville;
     }
-
+    
+    public String getRue()
+    {
+    	return rue;
+    }
+    
+    public void setRue(String rue)
+    {
+    	this.rue = rue;
+    }
+    
+    public Long getNumero_rue()
+    {
+    	return numero_rue;
+    }
+    
+    public void setNumero_rue(Long numero_rue)
+    {
+    	this.numero_rue = numero_rue;
+    }
+    
+    public Long getCode_postal()
+    {
+    	return code_postal;
+    }
+    
+    public void setCode_postal(Long code_postal)
+    {
+    	this.code_postal = code_postal;
+    }
+    
     public Long getIdcompte() {
         return idcompte;
     }

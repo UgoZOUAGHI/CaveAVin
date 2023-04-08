@@ -48,6 +48,10 @@
             {{ producteur.ville }}
         </p>
         <p>
+            <strong>Adresse :</strong>
+            {{ producteur.numero_rue }} {{ producteur.rue }}, {{ producteur.code_postal }}
+        </p>
+        <p>
             <strong> numéro fiscal :</strong>
             {{ producteur.numero_fiscal }}
         </p>

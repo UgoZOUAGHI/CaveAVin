@@ -1,27 +1,43 @@
 <template>
-  <div id="map">
-    <l-map :zoom="zoom" :center="center" style="height: 100%; width: 100%" @update:center="centerUpdate"
+  <div id="cssmap">
+    <l-map ref="map" :zoom="zoom" :center="center" style="height: 100%; width: 100%" @update:center="centerUpdate"
       @update:zoom="zoomUpdate">
-
       <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution=OpenStreetMap />
+      <l-geo-json v-if="show" :geojson="geojsonData" :options="options" :options-style="styleFunction" />
+      <div v-if="show_prods">
+      <l-marker v-for="coord in coord_prods" :lat-lng="[coord.lat, coord.lon]"></l-marker>
+      </div>
+      <l-control>
+        <div class="Info-control">
+          <b> {{ bassin_hover }} </b>
+          <div>
+            <label for="checkbox">Régions viticoles</label>
+            <input id="checkbox" v-model="show" type="checkbox">
+          </div>
+          <div>
+            <label for="checkbox">Producteurs</label>
+            <input id="checkbox" v-model="show_prods" type="checkbox">
+          </div>
 
-      <!-- <l-polygon  /> -->
+        </div>
+        <div>
+        </div>
 
-      />
-      <l-geo-json :geojson="geojsonData" :options="options" v-on:click="zoomToFeature" />
+      </l-control>
     </l-map>
 
   </div>
 </template>
 
 <script>
-
+import ProducteurService from '../services/ProducteurService.js';
 import {
   LMap,
   LIcon,
   LTileLayer,
   LMarker,
   LControlLayers,
+  LControl,
   LTooltip,
   LPopup,
   LPolyline,
@@ -29,9 +45,9 @@ import {
   LRectangle,
   LGeoJson,
 } from "@vue-leaflet/vue-leaflet";
-import { latLng } from "leaflet";
 
 import "leaflet/dist/leaflet.css";
+import { CLOSING } from 'ws';
 
 export default {
   components: {
@@ -40,6 +56,7 @@ export default {
     LTileLayer,
     LMarker,
     LControlLayers,
+    LControl,
     LTooltip,
     LPopup,
     LPolyline,
@@ -51,44 +68,19 @@ export default {
 
   data() {
     return {
+      show: true,
+      show_prods: false,
+      map: null,
+      coord_prods: [],
+      test_adresse: '31 Rue de la Concorde, 31000 Toulouse',
       zoom: 6,
       center: [46.54, 2.67],
       geojsonData: null,
-      options: {
-        style: function (feature) {
-          switch (feature.properties.Bassin) {
-            case 'CHAMPAGNE': return { fillColor: "#ff0000", fillOpacity: 1 };
-            case 'ARMAGNAC': return { fillcolor: "#0000ff" };
-          }
-        },
-        onEachFeature: function onEachFeature(feature, layer) {
-          // does this feature have a property named popupContent?
-          if (feature.properties.Bassin != "") {
-            layer.bindPopup("Nom : " + feature.properties.Bassin);
-          } else {
-            layer.bindPopup("NA");
-          }
-          layer.on(
-            'mouseover', function () {
-              this.setStyle({
-                weight: 2,
-                color: 'darkred',
-                dashArray: '1',
-                fillOpacity: 0.3,
-              });
-            });
-          layer.on(
-            'mouseout', function () {
-              this.setStyle({
-                weight: 2,
-                color: '#3388ff',
-                dashArray: '',
-                fillOpacity: 0.2,
-              });
-            });
-        },
-      },
-      map: null,
+      bassin_hover: 'Pas au dessus d\'une région',
+      current_Bassin: '',
+      markerLatLng: [44.8411019, -0.5742486],
+      region: [],
+      producteurs: []
     };
   },
 
@@ -98,35 +90,99 @@ export default {
       const data = await response.json();
       this.geojsonData = data;
     },
-    // highlightFeature(e) {
-    //   const layer = e.target;
-    //   layer.setStyle({
-    //     weight: 4,
-    //     color: '#666',
-    //     fillOpacity: 0.5
-    //   });
-    // },
-    // resetHighlight(e) {
-    //   const layer = e.target;
-    //   layer.setStyle({
-    //     weight: 2,
-    //     color: 'blue',
-    //     dashArray: '3',
-    //     fillOpacity: 0.5,
-    //   });
-    // },
-    zoomToFeature(e) {
-      this.$refs.map.mapObject.fitBounds(e.target.getBounds());
-    },
     centerUpdate(newCenter) {
       this.center = newCenter;
     },
     zoomUpdate(newZoom) {
       this.zoom = newZoom;
     },
+    EmitData(data) {
+      this.$store.commit('prend_valeur', data);
+      console.log(this.$store.region);
+    },
+    FindAddress() {
+      for (let step = 0; step < this.producteurs.length; step++) {
+        if (this.producteurs[step].numero_rue != null && this.producteurs[step].rue != null && this.producteurs[step].code_postal != null && this.producteurs[step].ville != null) {
+          var adresse = this.producteurs[step].numero_rue + " " + this.producteurs[step].rue + ", " + this.producteurs[step].code_postal + " " + this.producteurs[step].ville;
+          console.log(adresse);
+          var addressArr = null;
+          var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + adresse;
+          fetch(url)
+            .then(response => response.json())
+            .then(data => addressArr = data)
+            .then(show => this.SaveDataProds(addressArr))
+            .catch(err => console.log(err));
+        }
+      }
+    },
+    SaveDataProds(addressArr) {
+      if (addressArr[0] != undefined) {
+        this.coord_prods.push(addressArr[0])
+      }
+      console.log("L'addresse ", this.coord_prods);
+    },
+    getProducteurs() {
+      ProducteurService.getProducteurs().then((response) => {
+        this.producteurs = response.data;
+        console.log(this.producteurs);
+        this.FindAddress();
+      });
+
+    },
   },
+  computed: {
+    options() {
+      return {
+        onEachFeature: this.onEachFeatureFunction
+      };
+    },
+    styleFunction() {
+      return () => {
+        return {
+          weight: 2,
+          color: '#B22222',
+          dashArray: '',
+          fillOpacity: 0.2,
+        };
+      };
+    },
+    onEachFeatureFunction() {
+      var self = this
+      this.map = this.$refs.map.leafletObject
+      return (feature, layer) => {
+        layer.on(
+          'mouseover', function () {
+            this.setStyle({
+              weight: 2,
+              color: '#3388ff',
+              dashArray: '1',
+              fillOpacity: 0.3,
+            });
+            self.bassin_hover = 'Région : ' + feature.properties.Bassin;
+          });
+        layer.on(
+          'mouseout', function () {
+            this.setStyle({
+              weight: 2,
+              color: '#B22222',
+              dashArray: '',
+              fillOpacity: 0.2,
+            });
+            self.bassin_hover = 'Pas au dessus d\'une région';
+
+          });
+        layer.on('click', function () {
+          var bounds = layer.getBounds(feature.properties)
+          self.map.fitBounds(bounds)
+        });
+      };
+    },
+  },
+
   async created() {
+    this.getProducteurs();
     this.fetchGeoJSON();
+    // this.FindAddress();
   }
 };
 </script>
@@ -147,19 +203,11 @@ body {
   text-align: center;
 }
 
-.leaflet-container {
-  height: 1000px;
-  width: 2000px;
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  text-align: center;
-}
-
-#map {
-  height: 600px;
+#cssmap {
+  height: 80vh;
   width: 100%;
   text-align: center;
+  padding: 10px;
 }
 
 .info {
@@ -188,6 +236,26 @@ body {
   float: left;
   margin-right: 8px;
   opacity: 0.7;
+}
+
+.Info-control {
+  background-color: darkred;
+  padding: 7px;
+  border-radius: 10px;
+}
+
+.Info-control b {
+  color: white;
+}
+
+.Info-control label {
+  color: white;
+  margin-right: 2px;
+}
+
+.Info-control input {
+  color: white;
+  margin-top: 4px;
 }
 </style>
 

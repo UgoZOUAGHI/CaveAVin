@@ -11,7 +11,10 @@ class ProducteurService {
             numero_fiscal: producteur.numero_fiscal,
             regionviticole: producteur.regionviticole,
             telephone: producteur.telephone,
-            ville: producteur.ville
+            ville: producteur.ville,
+            rue: producteur.rue,
+            numero_rue : producteur.numero_rue,
+            code_postal: producteur.code_postal
         });
     }
 
@@ -21,7 +24,10 @@ class ProducteurService {
             numero_fiscal: producteur.numero_fiscal,
             regionviticole: producteur.regionviticole,
             telephone: producteur.telephone,
-            ville: producteur.ville
+            ville: producteur.ville,
+            rue: producteur.rue,
+            numero_rue : producteur.numero_rue,
+            code_postal: producteur.code_postal
         });
     }
 

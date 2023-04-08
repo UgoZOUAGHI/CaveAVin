@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import store from '@/store';
+import L from 'leaflet'
 //import Axios from 'axios';
 const app = createApp(App)
 
@@ -9,4 +10,5 @@ const app = createApp(App)
 import router from '@/router'
 app.use(router)
 app.use(store)
+app.use(L)
 app.mount('#app')

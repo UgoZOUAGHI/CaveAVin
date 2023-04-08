@@ -7,6 +7,7 @@
                     <th> Nom de Domaine</th>
                     <th> Région Viticole</th>
                     <th> Ville</th>
+                    <th> Adresse</th>
                     <th> Téléphone</th>
                 </tr>
 
@@ -17,6 +18,7 @@
                     <td data-title="Nom de Domaine"> {{ prod.nom }}</td>
                     <td data-title="Région Viticole"> {{ prod.regionviticole }}</td>
                     <td data-title="Ville"> {{ prod.ville }}</td>
+                    <td data-title="Ville"> {{ prod.numero_rue }} {{ prod.rue }}, {{ prod.code_postal }}</td>
                     <td data-title="Téléphone"> +33 0{{ prod.telephone }}</td>
                 </tr>
             </tbody>
