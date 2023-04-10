@@ -52,6 +52,8 @@ public class ProducteurController {
     	updateProd.setCode_postal(producteur.getCode_postal());
     	updateProd.setRue(producteur.getRue());
     	updateProd.setNumero_rue(producteur.getNumero_rue());
+    	updateProd.setLat(producteur.getLat());
+    	updateProd.setLon(producteur.getLon());
     	
     	producteurRepository.save(updateProd);
     	

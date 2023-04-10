@@ -14,7 +14,9 @@ class ProducteurService {
             ville: producteur.ville,
             rue: producteur.rue,
             numero_rue : producteur.numero_rue,
-            code_postal: producteur.code_postal
+            code_postal: producteur.code_postal,
+            lat: producteur.lat,
+            lon : producteur.lon
         });
     }
 
@@ -27,7 +29,9 @@ class ProducteurService {
             ville: producteur.ville,
             rue: producteur.rue,
             numero_rue : producteur.numero_rue,
-            code_postal: producteur.code_postal
+            code_postal: producteur.code_postal,
+            lat : producteur.lat,
+            lon : producteur.lon
         });
     }
 

@@ -3,9 +3,15 @@
     <l-map ref="map" :zoom="zoom" :center="center" style="height: 100%; width: 100%" @update:center="centerUpdate"
       @update:zoom="zoomUpdate">
       <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution=OpenStreetMap />
-      <l-geo-json v-if="show" :geojson="geojsonData" :options="options" :options-style="styleFunction" />
+      <div v-if="show">
+        <l-geo-json :geojson="geojsonData" :options="options" :options-style="styleFunction" />
+      </div>
       <div v-if="show_prods">
-      <l-marker v-for="coord in coord_prods" :lat-lng="[coord.lat, coord.lon]"></l-marker>
+        <div v-for="prods in producteurs">
+          <div v-if="prods.lat != 0 && prods.lon != 0">
+            <l-marker :lat-lng="[prods.lat, prods.lon]"></l-marker>
+          </div>
+        </div>
       </div>
       <l-control>
         <div class="Info-control">
@@ -22,7 +28,6 @@
         </div>
         <div>
         </div>
-
       </l-control>
     </l-map>
 
@@ -69,7 +74,7 @@ export default {
   data() {
     return {
       show: true,
-      show_prods: false,
+      show_prods: true,
       map: null,
       coord_prods: [],
       test_adresse: '31 Rue de la Concorde, 31000 Toulouse',
@@ -100,32 +105,10 @@ export default {
       this.$store.commit('prend_valeur', data);
       console.log(this.$store.region);
     },
-    FindAddress() {
-      for (let step = 0; step < this.producteurs.length; step++) {
-        if (this.producteurs[step].numero_rue != null && this.producteurs[step].rue != null && this.producteurs[step].code_postal != null && this.producteurs[step].ville != null) {
-          var adresse = this.producteurs[step].numero_rue + " " + this.producteurs[step].rue + ", " + this.producteurs[step].code_postal + " " + this.producteurs[step].ville;
-          console.log(adresse);
-          var addressArr = null;
-          var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + adresse;
-          fetch(url)
-            .then(response => response.json())
-            .then(data => addressArr = data)
-            .then(show => this.SaveDataProds(addressArr))
-            .catch(err => console.log(err));
-        }
-      }
-    },
-    SaveDataProds(addressArr) {
-      if (addressArr[0] != undefined) {
-        this.coord_prods.push(addressArr[0])
-      }
-      console.log("L'addresse ", this.coord_prods);
-    },
     getProducteurs() {
       ProducteurService.getProducteurs().then((response) => {
         this.producteurs = response.data;
         console.log(this.producteurs);
-        this.FindAddress();
       });
 
     },

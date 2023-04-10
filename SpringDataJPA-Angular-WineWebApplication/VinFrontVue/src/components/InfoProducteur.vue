@@ -50,6 +50,7 @@ export default {
     name: 'InfoProducteur',
     data() {
         return {
+            producteur: [],
             idcompte: "",
             regionviticole: "",
             ville: "",
@@ -59,8 +60,8 @@ export default {
             numero_rue: "",
             rue: "",
             code_postal: "",
-            producteur: [],
-            allregions: []
+            allregions: [],
+            coord_prods: []
         };
     },
     computed: {
@@ -69,7 +70,7 @@ export default {
         },
     },
     methods: {
-        ModifProducteur() {
+        async ModifProducteur() {
             const producteur_test = {
                 idcompte: this.StateUser.id,
                 nom: this.nom,
@@ -79,13 +80,18 @@ export default {
                 ville: this.ville,
                 rue: this.rue,
                 numero_rue: this.numero_rue,
-                code_postal: this.code_postal
+                code_postal: this.code_postal,
+                lat: this.coord_prods.lat,
+                lon: this.coord_prods.lon,
             };
-            ProducteurService.getProducteurById(producteur_test.idcompte).then((response) => {
+            const response = await this.FindAddress(producteur_test);
+            //console.log(response);
+            producteur_test.lat = this.coord_prods.lat;
+            producteur_test.lon = this.coord_prods.lon;
+            //console.log(producteur_test.lat);
+
+            ProducteurService.getProducteurById(this.StateUser.id).then((response) => {
                 this.producteur = response.data;
-                console.log(response);
-                console.log(producteur_test.idcompte);
-                console.log(this.producteur.id);
                 if (typeof (this.producteur.id) !== "undefined" && this.producteur.id !== null) {
                     ProducteurService.modifProducteurInfo(producteur_test.idcompte, producteur_test);
                     window.location.reload();
@@ -95,22 +101,52 @@ export default {
                         this.producteur = response.data;
                         window.location.reload();
                     });
-                    
+
                 }
-                
             });
         },
-        CloseFormulaire() {
-            //window.location.reload();
+        getProducteurById(){
+            ProducteurService.getProducteurById(this.StateUser.id).then((response) => {
+                const producteur = response.data;
+                this.rue = producteur.rue;
+                this.code_postal = producteur.code_postal;
+                this.numero_fiscal = producteur.numero_fiscal;
+                this.numero_rue = producteur.numero_rue;
+                this.regionviticole = producteur.regionviticole;
+                this.nom = producteur.nom;
+                this.telephone = producteur.telephone;
+                this.ville = producteur.ville;
+            });
+            
         },
         getAllRegions() {
             WinesService.getAllRegions().then((response) => {
                 this.allregions = response.data;
             });
         },
+        FindAddress(producteur) {
+            return new Promise((resolve) => {
+                if (producteur.numero_rue != null && producteur.rue != null && producteur.code_postal != null && producteur.ville != null) {
+                    var adresse = producteur.numero_rue + " " + producteur.rue + ", " + producteur.code_postal + " " + producteur.ville;
+                    console.log(adresse);
+                    var addressArr = null;
+                    var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + adresse;
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => addressArr = data)
+                        .then(show => {
+                            this.coord_prods = addressArr[0];
+                            console.log(this.coord_prods);
+                            resolve(this.coord_prods);
+                        })
+                        .catch(err => console.log(err));
+                }
+            });
+        },
     },
     created() {
         this.getAllRegions();
+        this.getProducteurById();
     }
 
 

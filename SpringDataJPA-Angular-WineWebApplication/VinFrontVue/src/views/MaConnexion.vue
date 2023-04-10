@@ -3,16 +3,20 @@
     <html lang="en">
 
     <form class="connexion" @submit.prevent="handleSubmit">
-        <h3 class="connexion" >Connexion</h3>
+        <h3 class="connexion">Connexion</h3>
         <h1 class="connexion"><router-link to="/inscription">S'inscrire</router-link></h1>
 
         <label class="connexion" for="username">Username</label>
         <input class="connexion" v-model="username" type="text" placeholder="example" id="username">
-
+        <div>
+            <span id="error" v-if="msg.username">{{ msg.username }}</span>
+        </div>
         <label class="connexion" for="password">Mot de passe</label>
         <input class="connexion" v-model="password" type="password" placeholder="********" id="password">
-
-        <button class="connexion" :disabled="loading">
+        <div>
+            <span id="error" v-if="msg.password">{{ msg.password }}</span>
+        </div>
+        <button class="connexion" :disabled="!disabled.every(i => i === false)">
             <span v-show="loading"></span>
             Connecter
         </button>
@@ -24,11 +28,13 @@
 <script>
 export default {
     name: 'MaConnexion',
-    data:() => {
+    data: () => {
         return {
             username: "",
             password: "",
+            msg: [],
             loading: false,
+            disabled: [true,true]
         }
     },
     computed: {
@@ -54,6 +60,7 @@ export default {
                         this.$router.push("/");
                     },
                     (error) => {
+                        console.log(error);
                         this.loading = false;
                         this.message =
                             (error.response &&
@@ -64,6 +71,43 @@ export default {
                     }
                 );
         },
+        ValidatePassword(value) {
+            if (value.length < 6) {
+                this.msg['password'] = 'Il doit y avoir au moins 6 caractères';
+                this.disabled = [true, this.disabled[1]];
+            } else {
+                this.msg['password'] = '';
+                this.disabled = [false, this.disabled[1]];
+            };
+
+        },
+        ValidateUsername(value){
+            if (value.length < 3) {
+                this.msg['username'] = 'Il doit y avoir au moins 3 caractères';
+                this.disabled = [this.disabled[0],true];
+            } 
+            else if (value.length > 20) {
+                this.msg['username'] = 'Il doit y avoir au maximum 20 caractères';
+                this.disabled = [this.disabled[0],true];
+            }
+            else {
+                this.msg['username'] = '';
+                this.disabled = [this.disabled[0],false];
+            };
+        },
+    },
+    watch: {
+        username(value) {
+            // binding this to the data value in the email input
+            // this.email = value;
+            this.username = value
+            this.ValidateUsername(value);
+        },
+        password(value) {
+            // this.password = value;
+            this.password = value
+            this.ValidatePassword(value);
+        }
     },
 }
 
@@ -164,5 +208,10 @@ button.connexion {
     background-color: rgba(255, 255, 255, 0.27);
     color: #eaf0fb;
     text-align: center;
+}
+
+#error {
+    font-size: smaller;
+    font-weight: bold;
 }
 </style>

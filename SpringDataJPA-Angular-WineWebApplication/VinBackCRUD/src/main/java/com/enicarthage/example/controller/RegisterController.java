@@ -52,21 +52,6 @@ public class RegisterController {
 	@Autowired
 	JwtUtils jwtUtils;
 
-	/*@PostMapping("/users")
-	public User ajouterUser(@RequestBody User user) throws Exception {
-
-		String tempEmailId = user.getEmail();
-		if (tempEmailId != null && !"".equals(tempEmailId)) {
-			User userobj = registrationRepository.findByEmailId(tempEmailId);
-			if (userobj != null) {
-				throw new Exception(("User with " + tempEmailId + "already exists"));
-			}
-		}
-		User userobj = null;
-		userobj = registrationRepository.save(user);
-		return userobj;
-
-	}*/
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest){
 		if (registrationRepository.existsByUsername(signUpRequest.getUsername())) {
