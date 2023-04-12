@@ -18,14 +18,14 @@
         </div>
         <div class="form3">
             <label class="formWine" for="contenance">contenance :</label>
-            <input class="formWine" type="text" v-model="inputContenance" placeholder="contenance">
+            <input class="formWine" type="number" v-model="inputContenance" placeholder="contenance" min="0" max="10000" step=0.01>
 
             <label class="formWine" for="prix">prix :</label>
-            <input class="formWine" type="text" v-model="inputPrix" placeholder="prix">
+            <input class="formWine" type="number" v-model="inputPrix" placeholder="prix" min="0" max="1000000" step=0.01>
         </div>
         <div class="form3">
             <label class="formWine" for="degre_alcool">degré d'alcool :</label>
-            <input class="formWine" type="text" v-model="inputDegAlcool" placeholder="degré d'alcool">
+            <input class="formWine" type="number" v-model="inputDegAlcool" placeholder="degré d'alcool" min="0" max="95" step=0.01>
 
             <button class="formWine" v-on:click="modifWinesById()">
                 Valider
@@ -88,6 +88,43 @@ export default {
                 this.$emit('modifWinesById', state)
             }
         },
+        ValidateInput(value) {
+            if (value.length < 2) {
+                this.msg['appelation'] = 'Il doit y avoir au moins 2 caractères';
+                //this.disabled = [true, this.disabled[1], this.disabled[2], this.disabled[3]];
+            } else {
+                this.msg['appelation'] = '';
+                //this.disabled = [false, this.disabled[1], this.disabled[2], this.disabled[3]];
+            };
+
+        },
+    },
+
+    watch: {
+        inputAppelation(value) {
+            this.inputAppelation = value;
+            this.ValidateInput(value);
+        },
+        inputCouleur(value) {
+            this.inputCouleur = value;
+            this.ValidateInput(value);
+        },
+        inputCepage(value) {
+            this.inputCepage = value; 
+            this.ValidateInput(value);
+        },
+        inputDescription(value) {
+            this.inputDescription = value;
+        },
+        // inputContenance(value){
+        //     this.inputContenance = value;
+        // },
+        // inputPrix(value){
+        //     this.inputPrix = value;
+        // },
+        // inputDegAlcool(value){
+        //     this.inputDegAlcool = value;
+        // },
     },
     created(){
         ProducteurService.getProducteurById(this.StateUser.id).then((response) => {

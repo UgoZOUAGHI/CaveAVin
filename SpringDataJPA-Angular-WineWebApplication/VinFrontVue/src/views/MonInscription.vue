@@ -8,13 +8,19 @@
 
             <label class="inscription" for="username">Email</label>
             <input class="inscription" v-model="email" type="text" placeholder="example@xyz.com" id="user_mail">
-
+            <div>
+                <span id="error" v-if="msg.email">{{ msg.email }}</span>
+            </div>
             <label class="inscription" for="username">Username</label>
             <input class="inscription" v-model="username" type="text" placeholder="example" id="username">
-
+            <div>
+                <span id="error" v-if="msg.username">{{ msg.username }}</span>
+            </div>
             <label class="inscription" for="password">Mot de passe</label>
             <input class="inscription" v-model="password" type="password" placeholder="********" id="password">
-
+            <div>
+                <span id="error" v-if="msg.password">{{ msg.password }}</span>
+            </div>
             <!-- <label for="password">Répéter le mot de passe</label>
         <input v-model="password_confirm" type="password" placeholder="********" id="password"> -->
 
@@ -25,7 +31,10 @@
                 <input class="increase" type="radio" name="roles" value="ROLE_USER" v-model="roles">
                 <label class="textc" for="producteur">Client</label>
             </div>
-            <button class="inscription" :disabled="loading">
+            <div>
+                <span id="error" v-if="msg.roles">{{ msg.roles }}</span>
+            </div>
+            <button class="inscription" :disabled="!disabled.every(i => i === false)">
                 <span v-show="loading"></span>
                 <label id="textInscrire">S'inscrire</label>
             </button>
@@ -55,6 +64,8 @@ export default {
             loading: false,
             successful: false,
             message: "",
+            disabled: [true, true, true, true],
+            msg: [],
         };
     },
     computed: {
@@ -97,8 +108,74 @@ export default {
                     this.loading = false;
                 }
             );
+        },
+        ValidatePassword(value) {
+            if (value.length < 6) {
+                this.msg['password'] = 'Il doit y avoir au moins 6 caractères';
+                this.disabled = [true, this.disabled[1], this.disabled[2], this.disabled[3]];
+            } else {
+                this.msg['password'] = '';
+                this.disabled = [false, this.disabled[1], this.disabled[2], this.disabled[3]];
+            };
+
+        },
+        ValidateUsername(value) {
+            if (value.length < 3) {
+                this.msg['username'] = 'Il doit y avoir au moins 3 caractères.';
+                this.disabled = [this.disabled[0], true, this.disabled[2], this.disabled[3]];
+            }
+            else if (value.length > 20) {
+                this.msg['username'] = 'Il doit y avoir au maximum 20 caractères.';
+                this.disabled = [this.disabled[0], true, this.disabled[2], this.disabled[3]];
+            }
+            else {
+                this.msg['username'] = '';
+                this.disabled = [this.disabled[0], false, this.disabled[2], this.disabled[3]];
+            };
+        },
+        validateEmail(value) {
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+                this.msg['email'] = '';
+                this.disabled = [this.disabled[0], this.disabled[1], false, this.disabled[3]];
+            } else {
+                this.msg['email'] = 'Email non valide.';
+                this.disabled = [this.disabled[0], this.disabled[1], true, this.disabled[3]];
+            }
+        },
+        validateRoles(value) {
+            if (value != '') {
+                this.msg['roles'] = '';
+                this.disabled = [this.disabled[0], this.disabled[1], this.disabled[2], false];
+            }
+            else {
+                this.msg['roles'] = 'Veuillez sélectionner un rôle.';
+                this.disabled = [this.disabled[0], this.disabled[1], this.disabled[2], true];
+            }
         }
-    }
+    },
+    watch: {
+        username(value) {
+            // binding this to the data value in the email input
+            // this.email = value;
+            this.username = value
+            this.ValidateUsername(value);
+        },
+        password(value) {
+            // this.password = value;
+            this.password = value
+            this.ValidatePassword(value);
+        },
+        email(value) {
+            // binding this to the data value in the email input
+            this.email = value;
+            this.validateEmail(value);
+        },
+        roles(value) {
+            this.roles = value;
+            this.validateRoles(value);
+        }
+
+    },
 
 }
 </script>  
@@ -213,7 +290,7 @@ button.inscription {
     text-align: center;
 }
 
-#textInscrire{
-    color : black;  
+#textInscrire {
+    color: black;
 }
 </style>
