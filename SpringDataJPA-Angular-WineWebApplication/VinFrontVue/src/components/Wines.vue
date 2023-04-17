@@ -1,68 +1,69 @@
 <template>
-    <ul>        
-
-        <h1 id="h1appelation" for="appelation">Filtrage par : Appelation</h1>
-        <select id="appelation" name="appelation" v-model='region'>
-            <option v-for="laappelation in allappelations" v-bind:key="laappelation">{{laappelation}}</option>
-            <option value="no-appelation">  </option>
+    <br>
+    <br>    
+    <div >
+        <div id="filtres">
+        <h1 id="h1appelation" for="appelation">Appelation</h1>
+        <select id="appelation" name="appelation" v-model='appelation'>
+            <option v-for="laappelation in allappelations" v-bind:key="laappelation">{{ laappelation }}</option>
+            <option value=""> </option>
         </select>
-
-        <h1 id="h1region" for="region">Filtrage par : Région</h1>
+        </div>
+        <div id="filtres">
+        <h1 id="h1region" for="region">Région</h1>
         <select id="region" name="region" v-model='region'>
-            <option v-for="laregion in allregions" v-bind:key="laregion">{{laregion}}</option>
-            <option value="no-region">  </option>
+            <option v-for="laregion in allregions" v-bind:key="laregion">{{ laregion }}</option>
+            <option value=""> </option>
         </select>
-
-        <h1 id="h1cepage" for="cepage">Filtrage par : Cépage</h1>
+        </div>
+        <div id="filtres">
+        <h1 id="h1cepage" for="cepage">Cépage</h1>
         <select id="cepage" name="cepage" v-model='cepage'>
-            <option v-for="lecepage in allcepages" v-bind:key="lecepage">{{lecepage}}</option>
-            <option value="no-cepage">  </option>
+            <option v-for="lecepage in allcepages" v-bind:key="lecepage">{{ lecepage }}</option>
+            <option value=""> </option>
         </select>
-
-        <h1 id="h1color" for="couleur">Filtrage par : Couleur</h1>
+        </div>
+        <div id="filtres">
+        <h1 id="h1color" for="couleur">Couleur</h1>
         <select id="couleur" name="couleur" v-model="color">
-            <option v-for="lacolor in allcolors" v-bind:key="lacolor">{{lacolor}}</option>
-            <option value="no-color">  </option>
-        </select>      
+            <option v-for="lacolor in allcolors" v-bind:key="lacolor">{{ lacolor }}</option>
+            <option value=""> </option>
+        </select>
+        </div>  
+        <label for="vol">Prix (entre 0 et 100):</label>
+        <input type="range" v-model="range" min="0" max="100" step="1" />
+        {{ this.range }}€
 
-    </ul>
+    </div>
 
 
     <div class="container">
-
         <table>
             <thead>
                 <tr>
                     <!--<th> Wine id</th>-->
-                    <th> Wine appelation</th>
-                    <th> Wine region</th>
-                    <th> Wine cepage</th>
-                    <th> Wine color</th>
-                </tr>
+                    <th> Appelation</th>
+                    <th> Région</th>
+                    <th> Cépage</th>
+                    <th> Couleur</th>
+                    <th> Prix</th>
 
+                </tr>
             </thead>
-
-            <tbody v-for="wine in wines"  v-bind:key="wine.id ">
-
-                <tr v-if="wine.couleur == color">
+            <tbody v-for="wine in filterWines">
+                <tr>
                     <td data-title="Appelation"> {{ wine.appelation }}</td>
                     <td data-title="Region"> {{ wine.region }}</td>
                     <td data-title="Cepage"> {{ wine.cepage }}</td>
                     <td data-title="Couleur"> {{ wine.couleur }}</td>
+                    <td data-title="Couleur"> {{ wine.prix }} €</td>
                 </tr>
-
-                <tr v-if="wine.cepage == cepage">
-                    <td data-title="Appelation"> {{ wine.appelation }}</td>
-                    <td data-title="Region"> {{ wine.region }}</td>
-                    <td data-title="Cepage"> {{ wine.cepage }}</td>
-                    <td data-title="Couleur"> {{ wine.couleur }}</td>
-                </tr>
-
-
-                    
             </tbody>
         </table>
     </div>
+    <button :disabled="this.currentPage === 0" @click="changePage(false)">&larr;</button>
+    {{ currentPage + 1 }} / {{ numberOfPages }}
+    <button :disabled="this.currentPage + 1 >= numberOfPages" @click="changePage">&rarr;</button>
 </template>
 
 
@@ -73,15 +74,20 @@ export default {
     name: 'WinesList',
     data() {
         return {
+            range: '50',
             wines: [],
             allcolors: [],
             color: '',
+            category: '',
             allcepages: [],
-            cepage : '',
+            cepage: '',
             allregions: [],
             region: '',
             allappelations: [],
-            appelation:''
+            appelation: '',
+            currentPage: 0,
+            elementsPerPage: 5,
+            winesSorted: [],
         }
     },
     methods: {
@@ -100,26 +106,57 @@ export default {
                 this.wines = response.data;
             });
         },
-        getAllCepages(){
+        getAllCepages() {
             WinesService.getAllCepages().then((response) => {
                 this.allcepages = response.data;
             });
         },
-        getAllColors(){
+        getAllColors() {
             WinesService.getAllColors().then((response) => {
                 this.allcolors = response.data;
             });
         },
-        getAllRegions(){
+        getAllRegions() {
             WinesService.getAllRegions().then((response) => {
                 this.allregions = response.data;
             });
         },
-        getAllAppelations(){
+        getAllAppelations() {
             WinesService.getAllAppelations().then((response) => {
                 this.allappelations = response.data;
             });
-        }
+        },
+        filterWineByColor(wines) {
+            return wines.filter(wine => !wine.couleur.indexOf(this.color));
+        },
+        filterWineByRegion(wines) {
+            return wines.filter(wine => !wine.region.indexOf(this.region));
+        },
+        filterWineByPrix(wines) {
+            return wines.filter(wine => (wine.prix > 0 && wine.prix < this.range) ? wine : '')
+        },
+        filterWineByCepage(wines) {
+            return wines.filter(wine => !wine.cepage.indexOf(this.cepage));
+        },
+        filterWineByAppelation(wines) {
+            return wines.filter(wine => !wine.appelation.indexOf(this.appelation));
+            
+        },
+        changePage(next = true) {
+            this.currentPage += next ? 1 : -1;
+        },
+
+    },
+    computed: {
+        filterWines() {
+            
+            this.numberOfPages = Math.ceil(this.filterWineByColor(this.filterWineByRegion(this.filterWineByCepage(this.filterWineByAppelation(this.filterWineByPrix(this.wines))))).length/this.elementsPerPage);
+            
+            return this.filterWineByColor(this.filterWineByRegion(this.filterWineByCepage(this.filterWineByAppelation(this.filterWineByPrix(this.wines))))).slice(
+                this.currentPage * this.elementsPerPage,
+                this.currentPage * this.elementsPerPage + this.elementsPerPage
+            );         
+        },
     },
     created() {
         this.getWines();
@@ -134,6 +171,11 @@ export default {
 
 
 <style>
+
+#filtres{
+    display: inline-block;
+    margin-left: 1.5%;
+}
 .container {
     margin-left: 10%;
     margin-right: 10%;
@@ -211,15 +253,13 @@ option,
 #h1color,
 #h1cepage,
 #h1appelation,
-select{
-    font-size: 110%; 
-    margin-left: 5%;   
+select {
+    font-size: 110%;
+    margin-left: 5%;
 
 }
 
-ul{
+ul {
     display: table-cell;
 }
-
-
 </style>
