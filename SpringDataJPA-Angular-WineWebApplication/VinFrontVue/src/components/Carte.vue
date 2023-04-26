@@ -6,13 +6,21 @@
       <div v-if="show">
         <l-geo-json :geojson="geojsonData" :options="options" :options-style="styleFunction" />
       </div>
+
       <div v-if="show_prods">
         <div v-for="prods in producteurs">
           <div v-if="prods.lat != 0 && prods.lon != 0">
-            <l-marker :lat-lng="[prods.lat, prods.lon]"></l-marker>
+            <l-marker :lat-lng="[prods.lat, prods.lon]">
+              <l-popup> Domaine viticole : {{ prods.nom }} 
+                <br> Adresse : {{ prods.numero_rue }} {{ prods.rue }}, {{ prods.code_postal }}
+                <br> Numéro de téléphone : 0{{ prods.telephone }}
+                <br> <router-link to="/vins/"> Voir les vins ! </router-link>
+              </l-popup>
+            </l-marker>
           </div>
         </div>
       </div>
+
       <l-control>
         <div class="Info-control">
           <b> {{ bassin_hover }} </b>
@@ -29,6 +37,7 @@
         <div>
         </div>
       </l-control>
+      
     </l-map>
 
   </div>
@@ -77,7 +86,6 @@ export default {
       show_prods: true,
       map: null,
       coord_prods: [],
-      test_adresse: '31 Rue de la Concorde, 31000 Toulouse',
       zoom: 6,
       center: [46.54, 2.67],
       geojsonData: null,
@@ -165,7 +173,6 @@ export default {
   async created() {
     this.getProducteurs();
     this.fetchGeoJSON();
-    // this.FindAddress();
   }
 };
 </script>

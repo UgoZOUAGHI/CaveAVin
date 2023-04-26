@@ -24,7 +24,15 @@ const router = createRouter({
     },
     {
       path: '/vins',
-      component: MesVins
+      component: MesVins,
+      name:'MesVins',
+      props: true
+    },
+    {
+      path: '/vins/:idcompte',
+      component: MesVins,
+      name:'MesVinsIdCompte',
+      props: true
     },
     {
       path: '/producteurs',
@@ -48,7 +56,8 @@ const router = createRouter({
     },
     {
       path: '/vinsproducteurs',
-      component: VinsProducteurs
+      component: VinsProducteurs,
+      meta: { requiresAuth: true }
     },
   ] 
 })

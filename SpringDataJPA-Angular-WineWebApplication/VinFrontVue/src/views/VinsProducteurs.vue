@@ -25,7 +25,7 @@ export default {
     getDataInput(data) {
       this.input = data
       this.stateDisplay = data.state
-    },
+    },  
     getStateForm(data){
       this.stateDisplay = data.state
     },

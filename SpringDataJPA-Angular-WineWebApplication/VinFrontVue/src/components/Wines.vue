@@ -56,7 +56,7 @@
                     <td data-title="Region"> {{ wine.region }}</td>
                     <td data-title="Cepage"> {{ wine.cepage }}</td>
                     <td data-title="Couleur"> {{ wine.couleur }}</td>
-                    <td data-title="Couleur"> {{ wine.prix }} €</td>
+                    <td data-title="Prix"> {{ wine.prix }} €</td>
                 </tr>
             </tbody>
         </table>
@@ -140,14 +140,13 @@ export default {
         },
         filterWineByAppelation(wines) {
             return wines.filter(wine => !wine.appelation.indexOf(this.appelation));
-            
         },
         changePage(next = true) {
             this.currentPage += next ? 1 : -1;
         },
 
     },
-    computed: {
+     computed: {
         filterWines() {
             
             this.numberOfPages = Math.ceil(this.filterWineByColor(this.filterWineByRegion(this.filterWineByCepage(this.filterWineByAppelation(this.filterWineByPrix(this.wines))))).length/this.elementsPerPage);
@@ -200,12 +199,11 @@ thead {
 
 th,
 td {
-    padding: 5px 10px;
+    padding: 10px 10px;
 }
 
-tbody tr:nth-child(even) {
-
-    background-color: #ddd
+tbody:nth-child(even) {
+    background-color:#ddd;
 }
 
 @media only screen and (max-width: 800px) {

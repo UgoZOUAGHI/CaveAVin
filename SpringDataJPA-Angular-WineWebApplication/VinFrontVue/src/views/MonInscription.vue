@@ -155,8 +155,6 @@ export default {
     },
     watch: {
         username(value) {
-            // binding this to the data value in the email input
-            // this.email = value;
             this.username = value
             this.ValidateUsername(value);
         },
